@@ -4,6 +4,7 @@ export interface IItem {
   price: number;
   qty: number;
   description: string;
+  img: string;
 }
 
 export interface ICategory {

@@ -1,9 +1,9 @@
-import { ICategory } from "./types";
+import { ICategory } from "../lib/types";
 
 export const mockCategories: ICategory[] = [
   {
     id: "1",
-    name: "Категория 1",
+    name: "LED-драйвер/контроллер",
     children: [
       {
         id: "1.1",
@@ -17,7 +17,7 @@ export const mockCategories: ICategory[] = [
   },
   {
     id: "2",
-    name: "Категория 2",
+    name: "USB розетка",
     children: [
       {
         id: "2.1",

@@ -8,6 +8,7 @@ const theme: ThemeConfig = {
   components: {
     Layout: {
       headerBg: "white",
+      bodyBg: "white",
     },
   },
 };

@@ -25,14 +25,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className="flex">
-          <AppProviders>
-            <Layout>
-              <AppHeader />
-              <Content>{children}</Content>
-            </Layout>
-          </AppProviders>
-        </div>
+        <AppProviders>
+          <Layout className="flex flex-col items-center gap-4">
+            <AppHeader />
+            <Content className="max-w-screen-xl w-full">{children}</Content>
+          </Layout>
+        </AppProviders>
       </body>
     </html>
   );
