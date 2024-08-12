@@ -5,6 +5,7 @@ import Link from "next/link";
 import { OrdersIcon } from "@/ui/svg/orders";
 import { BasketIcon } from "@/ui/svg/basket";
 import { AvatarMenu } from "./avatar-menu";
+import { BasketButton } from "./basket-button";
 
 export const AppHeader: React.FC = () => {
   return (
@@ -18,10 +19,7 @@ export const AppHeader: React.FC = () => {
         <OrdersIcon />
         <div className="leading-4 text-neutral-500 max-xl:hidden">Заказы</div>
       </Link>
-      <Link href={"/basket"} className="flex flex-col items-center gap-1">
-        <BasketIcon />
-        <div className="leading-4 text-neutral-500 max-xl:hidden">Корзина</div>
-      </Link>
+      <BasketButton />
       <AvatarMenu />
     </Header>
   );

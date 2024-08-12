@@ -1,4 +1,4 @@
-import { IItem } from "@/lib/types";
+import { IItem } from "@/api/types";
 
 interface IProps {
   text: string;

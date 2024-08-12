@@ -1,4 +1,4 @@
-import { ICategory } from "../lib/types";
+import { ICategory } from "../api/types";
 
 export const mockCategories: ICategory[] = [
   {

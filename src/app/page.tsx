@@ -1,24 +1,37 @@
 import { mockItems } from "@/mock-data/items";
-import { Table, TableColumnsType } from "antd";
-import { NameCell } from "./_components/name-cell";
-import { IItem } from "@/lib/types";
-import { useSearchParams } from "next/navigation";
-import { Cell, Row } from "./_components/cell";
+import {
+  IColumn,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+} from "@/shared-components/table";
+import { QtyCell } from "./_components/qty-cell";
+import { IItem } from "@/api/types";
 
-const columns: TableColumnsType<IItem> = [
+const columns: IColumn[] = [
   {
+    id: "id",
     title: "Артикл",
-    dataIndex: "id",
   },
   {
+    id: "name",
     title: "Наименование",
-    dataIndex: "name",
-    //render: (text, record) => <NameCell text={text} item={record} />,
   },
   {
-    title: "Цена",
-    dataIndex: "price",
+    id: "remain",
+    title: "Остаток",
     align: "right",
+  },
+  {
+    id: "price",
+    title: "Цена",
+    align: "right",
+  },
+  {
+    id: "qty",
+    title: "Количество",
   },
 ];
 
@@ -41,5 +54,28 @@ interface IProps {
 export default async function Home({ searchParams }: IProps) {
   const data = await getData(searchParams?.search);
 
-  return <Table columns={columns} dataSource={data} rowKey="id" />;
+  return (
+    <div className="overflow-hidden">
+      <Table>
+        <TableHead columns={columns} />
+        <TableBody>
+          {data.map((row) => (
+            <TableRow key={row.id}>
+              {columns.map((column) => {
+                return (
+                  <TableCell key={column.id}>
+                    {column.id === "qty" ? (
+                      <QtyCell item={row} />
+                    ) : (
+                      row[column.id as keyof IItem]
+                    )}
+                  </TableCell>
+                );
+              })}
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </div>
+  );
 }
