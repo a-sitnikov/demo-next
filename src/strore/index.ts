@@ -1,11 +1,12 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { enableMapSet } from "immer";
-import { basket } from "./slices/";
+import { basket, categories } from "./slices/";
 
 enableMapSet();
 
 export const reducer = combineReducers({
   basket,
+  categories,
 });
 
 export const makeStore = () => {

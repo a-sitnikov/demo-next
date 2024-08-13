@@ -2,12 +2,12 @@ import { Key } from "react";
 import { is } from "./type-guards";
 
 interface TDataWithParent {
-  id: number;
-  parent?: TDataWithParent | null;
+  id: Key;
+  parent?: Key;
 }
 
 interface TNodeWithChildren {
-  children?: TNodeWithChildren[];
+  children?: this[];
 }
 
 type TGetNodeKey<TTreeNode> = (node: TTreeNode) => Key;
@@ -35,7 +35,7 @@ export const makeTree = <
     const node = itemsMap.get(project.id);
     if (is.empty(node)) continue;
 
-    const parentID = project.parent?.id;
+    const parentID = project.parent;
     const parenNode = is.empty(parentID) ? undefined : itemsMap.get(parentID);
 
     if (!is.empty(parenNode)) {
@@ -91,14 +91,14 @@ export const getParentNodesKeys = <TData extends TDataWithParent>(
   item: TData,
   items: TData[]
 ) => {
-  let parentID = item.parent?.id;
+  let parentID = item.parent;
 
-  const keys: number[] = [];
+  const keys: Key[] = [];
   for (;;) {
     if (is.empty(parentID)) break;
 
     keys.push(parentID);
-    parentID = items.find((_item) => _item.id === parentID)?.parent?.id;
+    parentID = items.find((_item) => _item.id === parentID)?.parent;
   }
 
   return keys;

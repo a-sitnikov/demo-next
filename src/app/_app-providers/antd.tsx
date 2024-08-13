@@ -4,6 +4,7 @@ import { ConfigProvider, ThemeConfig } from "antd";
 const theme: ThemeConfig = {
   token: {
     fontFamily: "var(--Inter)",
+    colorPrimary: "#FA7814",
   },
   components: {
     Layout: {

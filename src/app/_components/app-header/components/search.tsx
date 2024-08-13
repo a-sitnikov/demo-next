@@ -1,5 +1,6 @@
 "use client";
 
+import { is } from "@/utils/type-guards";
 import { Button, Input } from "antd";
 import Compact from "antd/es/space/Compact";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -16,7 +17,11 @@ export const Search: React.FC = () => {
   };
 
   const onSearch = () => {
-    push("/?search=" + search);
+    if (is.empty(search)) {
+      push("/catalog");
+    } else {
+      push("/catalog?search=" + search);
+    }
   };
 
   return (
@@ -30,7 +35,7 @@ export const Search: React.FC = () => {
         allowClear
       />
       <Button type="primary" size="large" onClick={onSearch}>
-        Найти
+        {"Найти"}
       </Button>
     </Compact>
   );

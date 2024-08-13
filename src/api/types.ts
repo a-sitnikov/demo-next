@@ -9,6 +9,6 @@ export interface IItem {
 
 export interface ICategory {
   id: string;
-  name: string;
-  children?: ICategory[];
+  title: string;
+  parent?: string;
 }

@@ -1,10 +1,9 @@
-import { QtyCell } from "@/app/_components/qty-cell";
-import { is } from "@/utils/type-guards";
-
 export interface IColumn {
   id: string;
   title: string;
   align?: "right" | "left";
+  headerClassName?: string;
+  className?: string;
 }
 
 export const Table: React.FC<React.PropsWithChildren> = ({ children }) => {
@@ -24,7 +23,11 @@ export const TableHead: React.FC<TableHeadProps> = ({ columns }) => {
     <thead className="border-b border-neutral-200 bg-neutral-50 font-medium dark:border-white/10 dark:text-neutral-800">
       <tr>
         {columns.map((column) => (
-          <th key={column.id} scope="col" className="px-6 py-4">
+          <th
+            key={column.id}
+            scope="col"
+            className={`px-6 py-4 ${column.headerClassName || ""}`}
+          >
             {column.title}
           </th>
         ))}
@@ -37,14 +40,33 @@ export const TableBody: React.FC<React.PropsWithChildren> = ({ children }) => {
   return <tbody>{children}</tbody>;
 };
 
-export const TableRow: React.FC<React.PropsWithChildren> = ({ children }) => {
+interface TablleRowProps extends React.PropsWithChildren {
+  className?: string;
+}
+
+export const TableRow: React.FC<TablleRowProps> = ({ children, className }) => {
   return (
-    <tr className="border-b border-neutral-200 dark:border-white/10">
+    <tr
+      className={`border-b border-neutral-200 dark:border-white/10 ${
+        className || ""
+      }`}
+    >
       {children}
     </tr>
   );
 };
 
-export const TableCell: React.FC<React.PropsWithChildren> = ({ children }) => {
-  return <td className="whitespace-nowrap px-6 py-4">{children}</td>;
+interface TableCellProps extends React.PropsWithChildren {
+  className?: string;
+}
+
+export const TableCell: React.FC<TableCellProps> = ({
+  children,
+  className,
+}) => {
+  return (
+    <td className={`whitespace-nowrap px-6 py-4 ${className || ""}`}>
+      {children}
+    </td>
+  );
 };

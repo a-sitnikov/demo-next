@@ -16,7 +16,7 @@ export const AvatarMenu: React.FC = () => {
 
   return (
     <Dropdown trigger={["click"]} menu={menu} placement="bottomRight">
-      <Avatar size="large" className="cursor-pointer" />
+      <Avatar size="large" className="flex-shrink-0 cursor-pointer" />
     </Dropdown>
   );
 };

@@ -1,6 +1,13 @@
-import { IItem } from "@/api/types";
 import { mockItems } from "@/mock-data/items";
 import { Metadata } from "next";
+import { CatalogTable } from "./_components/catalog-table";
+import { Shortcuts } from "./_components/shortcuts";
+import { CategoryTree } from "./_components/category-tree";
+import Image from "next/image";
+import { fetchCatalog } from "@/api";
+import { FeaturedFilters } from "./_components/faetured-filters";
+import { Suspense } from "react";
+import { SearchInfo } from "./_components/search-info";
 
 export const metadata: Metadata = {
   title: "Каталог",
@@ -8,13 +15,7 @@ export const metadata: Metadata = {
 };
 
 async function getData(search?: string | null) {
-  if (search === null || search === undefined) {
-    return Promise.resolve(mockItems);
-  }
-
-  return Promise.resolve(
-    mockItems.filter((item) => item.name.includes(search))
-  );
+  return fetchCatalog({ search });
 }
 
 interface IProps {
@@ -23,56 +24,29 @@ interface IProps {
   };
 }
 
-interface IColumn {
-  id: string;
-  title: string;
-  align?: "right" | "left";
-}
-
-const columns: IColumn[] = [
-  {
-    id: "id",
-    title: "Артикл",
-  },
-  {
-    id: "name",
-    title: "Наименование",
-  },
-  {
-    id: "price",
-    title: "Цена",
-    align: "right",
-  },
-];
-
 export default async function Catalog({ searchParams }: IProps) {
-  const data = await getData(searchParams?.search);
+  const { items, count, categories } = await getData(searchParams?.search);
 
   return (
-    <table className="min-w-full text-left text-sm font-light text-surface dark:text-white">
-      <thead className="border-b border-neutral-200 font-medium dark:border-white/10">
-        <tr>
-          {columns.map((column) => (
-            <th key={column.id} scope="col" className="px-6 py-4">
-              {column.title}
-            </th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {data.map((row) => (
-          <tr
-            key={row.id}
-            className="border-b border-neutral-200 dark:border-white/10"
-          >
-            {columns.map((column) => (
-              <td key={column.id} className="whitespace-nowrap px-6 py-4">
-                {row[column.id as keyof IItem]}
-              </td>
-            ))}
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <div className="flex flex-col gap-4 px-2">
+      <Shortcuts />
+      <div className="flex gap-6">
+        <div className="flex flex-col gap-2">
+          <CategoryTree items={categories} />
+          <FeaturedFilters />
+        </div>
+        <div className="flex flex-col gap-2">
+          <Image
+            alt="banner"
+            src="/2000_315_eway_v_katalog.png"
+            width={1100}
+            height={157}
+            priority={false}
+          />
+          <SearchInfo text={searchParams?.search} count={count} />
+          <CatalogTable data={items} />
+        </div>
+      </div>
+    </div>
   );
 }
