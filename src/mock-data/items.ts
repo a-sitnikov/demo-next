@@ -27,4 +27,12 @@ export const mockItems: IItem[] = [
     description: "",
     img: "https://eway.elevel.ru/upload/raec/f4ad/184a/2f2e/8788a5813611f23145385c0b94dfce50.212x212.jpg",
   },
+  {
+    id: "7536121",
+    name: "Legrand Valena LIFE DIY Алюм Розетка 2-ая USB 240В/5В 1500мА Legrand Valena LIFE DIY Алюм Розетка 2-ая USB 240В/5В 1500мА Legrand Valena LIFE DIY Алюм Розетка 2-ая USB 240В/5В 1500мА",
+    price: 6564.74,
+    remains: 1,
+    description: "",
+    img: "https://eway.elevel.ru/upload/raec/f4ad/184a/2f2e/8788a5813611f23145385c0b94dfce50.212x212.jpg",
+  },
 ];

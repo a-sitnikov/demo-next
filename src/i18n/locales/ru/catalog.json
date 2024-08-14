@@ -1,0 +1,13 @@
+{
+  "table.item_id": "Артикул",
+  "table.name": "Наименование",
+  "table.remains": "Остаток",
+  "table.price": "Цена",
+  "table.qty": "Количество",
+
+  "filters.in_stock": "В наличии",
+  "filters.good_prices": "Выгодные цены",
+  "filters.cashback": "Товары с кэшбэком",
+
+  "shortcuts.configurators": "Конфигураторы"
+}

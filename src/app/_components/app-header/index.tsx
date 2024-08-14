@@ -7,10 +7,18 @@ import { BasketButton } from "./components/basket-button";
 import Image from "next/image";
 import { CatalogButton } from "./components/catalog-button";
 import { BonusPoints } from "./components/bonus-points";
+import { useServerTranslation } from "@/i18n";
 
-export const AppHeader: React.FC = () => {
+async function getData() {
+  return {};
+}
+
+export const AppHeader = async () => {
+  const { t } = await useServerTranslation();
+  const data = await getData();
+
   return (
-    <Header className="flex items-center justify-center gap-4 w-full sticky top-0">
+    <Header className="flex items-center justify-center gap-4 w-full sticky top-0 z-10">
       <Link href="/" className="flex-shrink-0">
         <Image
           alt="Logo"
@@ -22,10 +30,12 @@ export const AppHeader: React.FC = () => {
       </Link>
       <CatalogButton />
       <Search />
-      <BonusPoints />
+      <BonusPoints t={t} />
       <Link href={"/orders"} className="flex flex-col items-center gap-1">
         <OrdersIcon />
-        <div className="leading-4 text-neutral-500 max-xl:hidden">Заказы</div>
+        <div className="leading-4 text-neutral-500 max-xl:hidden">
+          {t("orders")}
+        </div>
       </Link>
       <BasketButton />
       <AvatarMenu />

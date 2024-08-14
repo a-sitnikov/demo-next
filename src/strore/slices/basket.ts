@@ -1,83 +1,68 @@
 import { IItem } from "@/api/types";
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 
-export interface BasketState {
+interface IBasketEntity {
+  item: IItem;
+  qty: number;
   sum: number;
-  items: IItem[];
-  qtyMap: Map<string, number>;
+}
+export interface BasketState {
+  total: number;
+  entities: IBasketEntity[];
 }
 
 const initialState: BasketState = {
-  sum: 0,
-  items: [],
-  qtyMap: new Map(),
+  total: 0,
+  entities: [],
 };
 
-const calculateSum = (state: BasketState) => {
-  let sum = 0;
-  state.items.forEach((item) => {
-    sum += item.price * (state.qtyMap.get(item.id) ?? 0);
+const calculateSum = (price: number, qty: number) => {
+  return Math.round(100 * price * qty) / 100;
+};
+
+const calculateTotal = (state: BasketState) => {
+  let total = 0;
+  state.entities.forEach((item) => {
+    total += item.sum;
   });
 
-  state.sum = Math.round(100 * sum) / 100;
-};
-
-const addItem = (state: BasketState, item: IItem, qty: number) => {
-  const index = state.items.findIndex((_item) => _item.id === item.id);
-  if (index === -1) state.items.push(item);
-  state.qtyMap.set(item.id, qty);
-};
-
-const deleteItem = (state: BasketState, item: IItem) => {
-  const index = state.items.findIndex((_item) => _item.id === item.id);
-  if (index !== -1) state.items.splice(index, 1);
-  state.qtyMap.delete(item.id);
+  state.total = Math.round(100 * total) / 100;
 };
 
 const slice = createSlice({
   name: "basket",
   initialState,
   reducers: {
-    update: (
+    init: (
+      state,
+      { payload: { entities } }: PayloadAction<{ entities: IBasketEntity[] }>
+    ) => {
+      state.entities = entities;
+      calculateTotal(state);
+    },
+    upsertItem: (
       state,
       { payload: { item, qty } }: PayloadAction<{ item: IItem; qty: number }>
     ) => {
-      const index = state.items.findIndex((_item) => _item.id === item.id);
-      if (qty === 0) {
-        deleteItem(state, item);
-      } else {
-        addItem(state, item, qty);
-      }
-      calculateSum(state);
-    },
-    deleteItem: (
-      state,
-      { payload: { item } }: PayloadAction<{ item: IItem }>
-    ) => {
-      deleteItem(state, item);
-      calculateSum(state);
-    },
-    increase: (
-      state,
-      { payload: { item } }: PayloadAction<{ item: IItem }>
-    ) => {
-      const qty = state.qtyMap.get(item.id) || 0;
-      addItem(state, item, qty + 1);
-      calculateSum(state);
-    },
-    decrease: (
-      state,
-      { payload: { item } }: PayloadAction<{ item: IItem }>
-    ) => {
-      const qty = state.qtyMap.get(item.id) || 0;
-      if (qty === 0) return;
+      const index = state.entities.findIndex(
+        (entity) => entity.item.id === item.id
+      );
 
-      if (qty === 1) {
-        deleteItem(state, item);
+      if (qty === 0) {
+        if (index !== -1) state.entities.splice(index, 1);
       } else {
-        addItem(state, item, qty - 1);
+        if (index === -1) {
+          state.entities.push({
+            item,
+            qty,
+            sum: calculateSum(item.price, qty),
+          });
+        } else {
+          state.entities[index].qty = qty;
+          state.entities[index].sum = calculateSum(item.price, qty);
+        }
       }
-      calculateSum(state);
+      calculateTotal(state);
     },
   },
 });

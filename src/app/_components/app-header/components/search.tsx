@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslation } from "@/i18n/client";
 import { is } from "@/utils/type-guards";
 import { Button, Input } from "antd";
 import Compact from "antd/es/space/Compact";
@@ -7,6 +8,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 export const Search: React.FC = () => {
+  const { t } = useTranslation();
+
   const searchParams = useSearchParams();
   const [search, setSearch] = useState(() => searchParams.get("search") || "");
 
@@ -35,7 +38,7 @@ export const Search: React.FC = () => {
         allowClear
       />
       <Button type="primary" size="large" onClick={onSearch}>
-        {"Найти"}
+        {t("find")}
       </Button>
     </Compact>
   );

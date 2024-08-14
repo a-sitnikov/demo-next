@@ -1,34 +1,40 @@
 "use client";
 
+import { useTranslation } from "@/i18n/client";
 import { Switch } from "antd";
 import Image from "next/image";
 
 const items = [
   {
     key: "1",
-    title: "В наличии",
+    title: "filters.in_stock",
   },
   {
     key: "2",
-    title: "Выгодные цены",
+    title: "filters.good_prices",
     icon: (
       <Image src="/images/discount.png" alt="icon" width={18} height={18} />
     ),
   },
   {
     key: "3",
-    title: "Товары с кэшбэком",
+    title: "filters.cashback",
   },
 ];
 
-export const FeaturedFilters = () => {
+export const FeaturedFilters: React.FC = () => {
+  const { t } = useTranslation("catalog");
+
   return (
     <div className="flex flex-col gap-4">
       {items.map((item) => (
-        <label className="flex items-center justify-between cursor-pointer">
+        <label
+          key={item.key}
+          className="flex items-center justify-between cursor-pointer"
+        >
           <div className="flex items-center gap-1">
             {item.icon}
-            {item.title}
+            {t(item.title)}
           </div>
           <Switch />
         </label>

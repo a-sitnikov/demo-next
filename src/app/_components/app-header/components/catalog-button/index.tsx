@@ -4,8 +4,11 @@ import { Button, Dropdown } from "antd";
 import useToken from "antd/es/theme/useToken";
 import { useMemo } from "react";
 import { CategoryList } from "./category-list";
+import { useTranslation } from "@/i18n/client";
 
 export const CatalogButton: React.FC = () => {
+  const { t } = useTranslation();
+
   const [_, token] = useToken();
 
   const dropdownStyle: React.CSSProperties = useMemo(
@@ -28,7 +31,7 @@ export const CatalogButton: React.FC = () => {
   return (
     <Dropdown trigger={["click"]} dropdownRender={dropdownRender}>
       <Button type="primary" size="large">
-        Каталог
+        {t("catalog")}
       </Button>
     </Dropdown>
   );

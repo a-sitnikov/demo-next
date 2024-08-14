@@ -34,7 +34,6 @@ export const CategoryTree: React.FC<IProps> = ({ items }) => {
       children: [],
     }));
   }, [items, categories]);
-  console.log(status, treeData);
 
   return <Tree treeData={treeData} blockNode />;
 };

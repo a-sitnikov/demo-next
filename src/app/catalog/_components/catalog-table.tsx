@@ -1,5 +1,6 @@
 import { IItem } from "@/api/types";
-import { QtyInput } from "@/ui/qty-input";
+import { useServerTranslation } from "@/i18n";
+import { QtyInput } from "@/shared/qty-input";
 import {
   IColumn,
   Table,
@@ -8,50 +9,51 @@ import {
   TableHead,
   TableRow,
 } from "@/ui/table";
+import { IWithTranslate } from "@/utils/types";
 import Link from "next/link";
 
-interface IProps {
+interface IProps extends IWithTranslate {
   data: IItem[];
 }
 
 const columns: IColumn[] = [
   {
     id: "id",
-    title: "Артикул",
+    title: "table.item_id",
     headerClassName: "w-44",
   },
   {
     id: "name",
-    title: "Наименование",
+    title: "table.name",
   },
   {
     id: "remains",
-    title: "Остаток",
+    title: "table.remains",
     headerClassName: "text-center w-32",
-    className: "text-center w-32",
+    className: "text-center",
   },
   {
     id: "price",
-    title: "Цена",
+    title: "table.price",
     headerClassName: "text-center w-32",
-    className: "text-center w-32",
+    className: "text-center",
   },
   {
     id: "qty",
-    title: "Количество",
+    title: "table.qty",
     headerClassName: "text-center w-52",
     className: "text-center w-52",
   },
 ];
 
-export const CatalogTable: React.FC<IProps> = ({ data }) => {
+export const CatalogTable: React.FC<IProps> = ({ data, t }) => {
   const cellView = (row: IItem, column: IColumn) => {
     switch (column.id) {
       case "qty":
         return <QtyInput item={row} />;
       case "name":
         return (
-          <Link href={`/catalog/${row.id}`}>
+          <Link href={`/catalog/${row.id}`} className="webkit-box-3">
             {row[column.id as keyof IItem]}
           </Link>
         );
@@ -62,7 +64,7 @@ export const CatalogTable: React.FC<IProps> = ({ data }) => {
 
   return (
     <Table>
-      <TableHead columns={columns} />
+      <TableHead columns={columns} t={t} />
       <TableBody>
         {data.map((row) => (
           <TableRow key={row.id}>

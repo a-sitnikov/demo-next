@@ -5,9 +5,10 @@ import { Shortcuts } from "./_components/shortcuts";
 import { CategoryTree } from "./_components/category-tree";
 import Image from "next/image";
 import { fetchCatalog } from "@/api";
-import { FeaturedFilters } from "./_components/faetured-filters";
+import { FeaturedFilters } from "./_components/featured-filters";
 import { Suspense } from "react";
 import { SearchInfo } from "./_components/search-info";
+import { useServerTranslation } from "@/i18n";
 
 export const metadata: Metadata = {
   title: "Каталог",
@@ -25,17 +26,18 @@ interface IProps {
 }
 
 export default async function Catalog({ searchParams }: IProps) {
+  const { t } = await useServerTranslation("catalog");
   const { items, count, categories } = await getData(searchParams?.search);
 
   return (
     <div className="flex flex-col gap-4 px-2">
-      <Shortcuts />
+      <Shortcuts t={t} />
       <div className="flex gap-6">
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 shrink-0">
           <CategoryTree items={categories} />
           <FeaturedFilters />
         </div>
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 grow shrink w-0">
           <Image
             alt="banner"
             src="/2000_315_eway_v_katalog.png"
@@ -44,7 +46,7 @@ export default async function Catalog({ searchParams }: IProps) {
             priority={false}
           />
           <SearchInfo text={searchParams?.search} count={count} />
-          <CatalogTable data={items} />
+          <CatalogTable data={items} t={t} />
         </div>
       </div>
     </div>

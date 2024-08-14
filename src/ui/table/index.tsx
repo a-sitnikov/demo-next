@@ -1,3 +1,5 @@
+import { IWithTranslate } from "@/utils/types";
+
 export interface IColumn {
   id: string;
   title: string;
@@ -8,31 +10,38 @@ export interface IColumn {
 
 export const Table: React.FC<React.PropsWithChildren> = ({ children }) => {
   return (
-    <table className="min-w-full text-left text-sm font-light text-surface dark:text-white">
+    <table className="w-full text-left text-sm font-light text-surface dark:text-white">
       {children}
     </table>
   );
 };
 
-export interface TableHeadProps {
+export interface TableHeadProps extends IWithTranslate {
   columns: IColumn[];
 }
 
-export const TableHead: React.FC<TableHeadProps> = ({ columns }) => {
+export const TableHead: React.FC<TableHeadProps> = ({ columns, t }) => {
   return (
-    <thead className="border-b border-neutral-200 bg-neutral-50 font-medium dark:border-white/10 dark:text-neutral-800">
-      <tr>
+    <>
+      <colgroup>
         {columns.map((column) => (
-          <th
-            key={column.id}
-            scope="col"
-            className={`px-6 py-4 ${column.headerClassName || ""}`}
-          >
-            {column.title}
-          </th>
+          <col key={column.id} span={1} className={column.headerClassName} />
         ))}
-      </tr>
-    </thead>
+      </colgroup>
+      <thead className="border-b border-neutral-200 bg-neutral-50 font-medium dark:border-white/10 dark:text-neutral-800">
+        <tr>
+          {columns.map((column) => (
+            <th
+              key={column.id}
+              scope="col"
+              className={`px-6 py-4 ${column.headerClassName || ""}`}
+            >
+              {t(column.title)}
+            </th>
+          ))}
+        </tr>
+      </thead>
+    </>
   );
 };
 
@@ -64,9 +73,5 @@ export const TableCell: React.FC<TableCellProps> = ({
   children,
   className,
 }) => {
-  return (
-    <td className={`whitespace-nowrap px-6 py-4 ${className || ""}`}>
-      {children}
-    </td>
-  );
+  return <td className={`px-6 py-4 ${className || ""}`}>{children}</td>;
 };
