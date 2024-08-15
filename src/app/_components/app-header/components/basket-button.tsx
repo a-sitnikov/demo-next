@@ -1,9 +1,9 @@
 "use client";
 
-import { useAppSelector } from "@/strore/hooks";
-import { BasketIcon } from "@/ui/svg/basket";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
+import { useAppSelector } from "@/strore/hooks";
+import { BasketIcon } from "@/ui/svg/basket";
 
 export const BasketButton: React.FC = () => {
   const { t } = useTranslation();
@@ -13,7 +13,7 @@ export const BasketButton: React.FC = () => {
     <Link href={"/basket"} className="flex flex-col items-center gap-1">
       <BasketIcon />
       <div className="leading-4 text-neutral-500 max-xl:hidden">
-        {t("basket")} {sum}
+        {t("header.basket")} {sum}
       </div>
     </Link>
   );

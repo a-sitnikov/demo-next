@@ -1,16 +1,19 @@
-import { Header } from "antd/es/layout/layout";
-import { Search } from "./components/search";
+import Image from "next/image";
 import Link from "next/link";
+import { Header } from "antd/es/layout/layout";
+import { useServerTranslation } from "@/i18n";
+import { mockBasket } from "@/mock-data/basket";
+import { mockCategories } from "@/mock-data/categories";
 import { OrdersIcon } from "@/ui/svg/orders";
 import { AvatarMenu } from "./components/avatar-menu";
 import { BasketButton } from "./components/basket-button";
-import Image from "next/image";
-import { CatalogButton } from "./components/catalog-button";
 import { BonusPoints } from "./components/bonus-points";
-import { useServerTranslation } from "@/i18n";
+import { CatalogButton } from "./components/catalog-button";
+import { Search } from "./components/search";
+import { UpdateStore } from "./components/update-store";
 
 async function getData() {
-  return {};
+  return { basket: mockBasket, categories: mockCategories };
 }
 
 export const AppHeader = async () => {
@@ -19,6 +22,7 @@ export const AppHeader = async () => {
 
   return (
     <Header className="flex items-center justify-center gap-4 w-full sticky top-0 z-10">
+      <UpdateStore data={data} />
       <Link href="/" className="flex-shrink-0">
         <Image
           alt="Logo"
@@ -34,7 +38,7 @@ export const AppHeader = async () => {
       <Link href={"/orders"} className="flex flex-col items-center gap-1">
         <OrdersIcon />
         <div className="leading-4 text-neutral-500 max-xl:hidden">
-          {t("orders")}
+          {t("header.orders")}
         </div>
       </Link>
       <BasketButton />

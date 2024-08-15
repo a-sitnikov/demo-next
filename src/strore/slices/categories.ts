@@ -1,9 +1,9 @@
-import { ICategory } from "@/api/types";
-import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import { StatusEnum } from "../types";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { fetchCategories } from "@/api";
-import { createAppAsyncThunk } from "../hooks";
+import { ICategory } from "@/api/types";
 import { is } from "@/utils/type-guards";
+import { createAppAsyncThunk } from "../hooks";
+import { StatusEnum } from "../types";
 
 export interface CategoriesState {
   status: StatusEnum;
@@ -23,7 +23,15 @@ export const getCategories = createAppAsyncThunk("categories/get", async () => {
 const slice = createSlice({
   name: "categories",
   initialState,
-  reducers: {},
+  reducers: {
+    init: (
+      state,
+      { payload: { items } }: PayloadAction<{ items: ICategory[] }>,
+    ) => {
+      state.items = items;
+      state.status = StatusEnum.Success;
+    },
+  },
   extraReducers(builder) {
     builder
       .addCase(getCategories.pending, (state, action) => {

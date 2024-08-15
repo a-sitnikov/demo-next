@@ -1,6 +1,6 @@
+import { SettingOutlined } from "@ant-design/icons";
 import { mockCategories } from "@/mock-data/categories";
 import { IWithTranslate } from "@/utils/types";
-import { SettingOutlined } from "@ant-design/icons";
 
 const items = [
   {

@@ -15,11 +15,11 @@ export const BatteryIcon: React.FC<IProps> = ({ className }) => {
       <g
         stroke="currentColor"
         fill="none"
-        fill-rule="evenodd"
+        fillRule="evenodd"
         transform="translate(1.000000, 1.000000)"
       >
         <path
-          stroke-width="6"
+          strokeWidth="6"
           d="M30,5 L24,5 L24,2 C24,0.9 23.1,0 22,0 L11,0 C9.9,0 9,0.9 9,2 L9,5 L2,5 C0.9,5 0,5.9 0,7 L0,60 C0,61.1 0.9,62 2,62 L30,62 C31.1,62 32,61.1 32,60 L32,7 C32,5.9 31.1,5 30,5 L30,5 Z"
         />
         <path

@@ -3,7 +3,7 @@ import { ConfigProvider, ThemeConfig } from "antd";
 
 const theme: ThemeConfig = {
   token: {
-    fontFamily: "var(--Inter)",
+    fontFamily: "var(--default-font)",
     colorPrimary: "#FA7814",
   },
   components: {

@@ -1,11 +1,11 @@
 "use client";
 
-import { useTranslation } from "@/i18n/client";
-import { is } from "@/utils/type-guards";
-import { Button, Input } from "antd";
-import Compact from "antd/es/space/Compact";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
+import { Button, Input } from "antd";
+import Compact from "antd/es/space/Compact";
+import { useTranslation } from "@/i18n/client";
+import { is } from "@/utils/type-guards";
 
 export const Search: React.FC = () => {
   const { t } = useTranslation();

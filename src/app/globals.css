@@ -13,6 +13,29 @@
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
   }
+
+  .hover-bg {
+    @apply hover:bg-neutral-100;
+  }
+
+  .thin-scroll {
+    scrollbar-color: #adb3be transparent;
+    scrollbar-width: thin;
+
+    &::-webkit-scrollbar-track {
+      border-radius: 2px;
+    }
+
+    &::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 10px;
+      background-color: darkgrey;
+    }
+  }
 }
 
 html {

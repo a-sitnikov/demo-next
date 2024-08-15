@@ -1,7 +1,11 @@
 {
-  "basket": "Корзина",
-  "catalog": "Каталог",
+  "header": {
+    "basket": "Корзина",
+    "catalog": "Каталог",
+    "orders": "Заказы",
+    "points": "Баллы"
+  },
+  "collapse": "Свернуть",
   "find": "Найти",
-  "orders": "Заказы",
-  "points": "Баллы"
+  "show_more": "Показать еще"
 }

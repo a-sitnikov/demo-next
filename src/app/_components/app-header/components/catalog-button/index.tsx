@@ -1,10 +1,10 @@
 "use client";
 
+import { useMemo } from "react";
 import { Button, Dropdown } from "antd";
 import useToken from "antd/es/theme/useToken";
-import { useMemo } from "react";
-import { CategoryList } from "./category-list";
 import { useTranslation } from "@/i18n/client";
+import { CategoryList } from "./category-list";
 
 export const CatalogButton: React.FC = () => {
   const { t } = useTranslation();
@@ -17,7 +17,7 @@ export const CatalogButton: React.FC = () => {
       borderRadius: token.borderRadiusLG,
       boxShadow: token.boxShadowSecondary,
     }),
-    [token]
+    [token],
   );
 
   const dropdownRender = () => {
@@ -31,7 +31,7 @@ export const CatalogButton: React.FC = () => {
   return (
     <Dropdown trigger={["click"]} dropdownRender={dropdownRender}>
       <Button type="primary" size="large">
-        {t("catalog")}
+        {t("header.catalog")}
       </Button>
     </Dropdown>
   );

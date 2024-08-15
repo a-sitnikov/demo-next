@@ -1,7 +1,8 @@
 import { IItem } from "@/api/types";
-import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import { calculateSum } from "@/utils/common";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface IBasketEntity {
+export interface IBasketEntity {
   item: IItem;
   qty: number;
   sum: number;
@@ -14,10 +15,6 @@ export interface BasketState {
 const initialState: BasketState = {
   total: 0,
   entities: [],
-};
-
-const calculateSum = (price: number, qty: number) => {
-  return Math.round(100 * price * qty) / 100;
 };
 
 const calculateTotal = (state: BasketState) => {

@@ -1,8 +1,8 @@
 "use client";
 
-import { useTranslation } from "@/i18n/client";
-import { Switch } from "antd";
 import Image from "next/image";
+import { Switch } from "antd";
+import { useTranslation } from "@/i18n/client";
 
 const items = [
   {

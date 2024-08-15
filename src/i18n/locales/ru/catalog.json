@@ -1,13 +1,18 @@
 {
-  "table.item_id": "Артикул",
-  "table.name": "Наименование",
-  "table.remains": "Остаток",
-  "table.price": "Цена",
-  "table.qty": "Количество",
-
-  "filters.in_stock": "В наличии",
-  "filters.good_prices": "Выгодные цены",
-  "filters.cashback": "Товары с кэшбэком",
-
-  "shortcuts.configurators": "Конфигураторы"
+  "filters": {
+    "in_stock": "В наличии",
+    "good_prices": "Выгодные цены",
+    "cashback": "Товары с кэшбэком",
+    "producer": "Производитель"
+  },
+  "shortcuts": {
+    "configurators": "Конфигураторы"
+  },
+  "table": {
+    "item_id": "Артикул",
+    "name": "Наименование",
+    "remains": "Остаток",
+    "price": "Цена",
+    "qty": "Количество"
+  }
 }

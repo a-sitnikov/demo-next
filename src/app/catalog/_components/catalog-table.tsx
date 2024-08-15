@@ -1,5 +1,5 @@
+import Link from "next/link";
 import { IItem } from "@/api/types";
-import { useServerTranslation } from "@/i18n";
 import { QtyInput } from "@/shared/qty-input";
 import {
   IColumn,
@@ -10,7 +10,6 @@ import {
   TableRow,
 } from "@/ui/table";
 import { IWithTranslate } from "@/utils/types";
-import Link from "next/link";
 
 interface IProps extends IWithTranslate {
   data: IItem[];

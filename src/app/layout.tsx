@@ -1,15 +1,15 @@
-import { Suspense } from "react";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import { AppHeader } from "./_components/app-header";
-import AppProviders from "./_app-providers";
-
-import "./globals.css";
+import { Inter, Roboto } from "next/font/google";
+import { Suspense } from "react";
 import { Loader } from "@/ui/loader";
+import AppProviders from "./_app-providers";
+import { AppHeader } from "./_components/app-header";
+import "./globals.css";
 
-const inter = Inter({
-  variable: "--Inter",
+const font = Inter({
+  variable: "--default-font",
   subsets: ["latin", "cyrillic"],
+  weight: ["400", "500", "700"],
 });
 
 export const metadata: Metadata = {
@@ -24,13 +24,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ru">
-      <body className={inter.className}>
+      <body className={font.className}>
         <AppProviders>
           <div className="flex flex-col items-center gap-2">
             <AppHeader />
-            <Suspense fallback={<Loader />}>
-              <div className="max-w-screen-xl w-full grow">{children}</div>
-            </Suspense>
+            {/* <Suspense fallback={<Loader />}> */}
+            <div className="max-w-screen-xl w-full grow">{children}</div>
+            {/* </Suspense> */}
           </div>
         </AppProviders>
       </body>

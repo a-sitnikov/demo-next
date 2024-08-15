@@ -1,8 +1,8 @@
+import Search from "antd/es/transfer/search";
 import { mockCategories } from "@/mock-data/categories";
 import { mockItems } from "@/mock-data/items";
 import { categories } from "@/strore/slices";
 import { is } from "@/utils/type-guards";
-import Search from "antd/es/transfer/search";
 import { ICategory, IItem } from "./types";
 
 export const fetchCategories = async () => {
@@ -18,13 +18,14 @@ export const fetchCatalog = async ({
 }: IFetchCatalogParams): Promise<{
   items: IItem[];
   count: number;
-  categories?: ICategory[];
+  categories: ICategory[];
 }> => {
   return new Promise((resolve, reject) => {
     if (is.empty(search)) {
       return setTimeout(
-        () => resolve({ items: mockItems, count: 100, categories: undefined }),
-        0
+        () =>
+          resolve({ items: mockItems, count: 100, categories: mockCategories }),
+        0,
       );
     } else {
       return setTimeout(
@@ -38,7 +39,7 @@ export const fetchCatalog = async ({
               mockCategories[2],
             ],
           }),
-        0
+        0,
       );
     }
   });

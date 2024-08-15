@@ -1,14 +1,13 @@
-import { mockItems } from "@/mock-data/items";
 import { Metadata } from "next";
-import { CatalogTable } from "./_components/catalog-table";
-import { Shortcuts } from "./_components/shortcuts";
-import { CategoryTree } from "./_components/category-tree";
 import Image from "next/image";
 import { fetchCatalog } from "@/api";
-import { FeaturedFilters } from "./_components/featured-filters";
-import { Suspense } from "react";
-import { SearchInfo } from "./_components/search-info";
 import { useServerTranslation } from "@/i18n";
+import { CatalogTable } from "./_components/catalog-table";
+import { CategoryTree } from "./_components/category-tree";
+import { FeaturedFilters } from "./_components/featured-filters";
+import { Producers } from "./_components/producers";
+import { SearchInfo } from "./_components/search-info";
+import { Shortcuts } from "./_components/shortcuts";
 
 export const metadata: Metadata = {
   title: "Каталог",
@@ -36,6 +35,7 @@ export default async function Catalog({ searchParams }: IProps) {
         <div className="flex flex-col gap-2 shrink-0">
           <CategoryTree items={categories} />
           <FeaturedFilters />
+          <Producers />
         </div>
         <div className="flex flex-col gap-2 grow shrink w-0">
           <Image

@@ -1,23 +1,12 @@
 "use client";
 
-import { useAppDispatch, useAppSelector } from "@/strore/hooks";
-import { getCategories } from "@/strore/slices";
-import { StatusEnum } from "@/strore/types";
-import { makeTree } from "@/utils/tree";
+import { useMemo } from "react";
 import { Tree } from "antd";
-import { useEffect, useMemo } from "react";
+import { useAppSelector } from "@/strore/hooks";
+import { makeTree } from "@/utils/tree";
 
 export const CategoryList: React.FC = () => {
-  const dispatch = useAppDispatch();
-
-  const status = useAppSelector((state) => state.categories.status);
   const categories = useAppSelector((state) => state.categories.items);
-
-  useEffect(() => {
-    if (status === StatusEnum.Init) {
-      dispatch(getCategories());
-    }
-  }, [status, dispatch]);
 
   const treeData = useMemo(
     () =>
@@ -26,7 +15,7 @@ export const CategoryList: React.FC = () => {
         title: item.title,
         children: [],
       })),
-    [categories]
+    [categories],
   );
 
   return <Tree treeData={treeData} blockNode />;

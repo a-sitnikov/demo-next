@@ -1,39 +1,28 @@
 "use client";
 
+import { useEffect, useMemo } from "react";
+import { Tree } from "antd";
 import { ICategory } from "@/api/types";
 import { useAppDispatch, useAppSelector } from "@/strore/hooks";
 import { getCategories } from "@/strore/slices";
 import { StatusEnum } from "@/strore/types";
+import { isServer } from "@/utils/common";
+import { useIsClientReady } from "@/utils/hooks";
 import { makeTree } from "@/utils/tree";
 import { is } from "@/utils/type-guards";
-import { Tree } from "antd";
-import { useEffect, useMemo } from "react";
 
 interface IProps {
-  items?: ICategory[];
+  items: ICategory[];
 }
 
 export const CategoryTree: React.FC<IProps> = ({ items }) => {
-  const dispatch = useAppDispatch();
-
-  const status = useAppSelector((state) => state.categories.status);
-  const categories = useAppSelector((state) => state.categories.items);
-
-  useEffect(() => {
-    if (status === StatusEnum.Init) {
-      dispatch(getCategories());
-    }
-  }, [status, dispatch]);
-
   const treeData = useMemo(() => {
-    if (is.empty(items) && is.empty(categories)) return;
-
-    return makeTree(items || categories, (item) => ({
+    return makeTree(items, (item) => ({
       key: item.id,
       title: item.title,
       children: [],
     }));
-  }, [items, categories]);
+  }, [items]);
 
   return <Tree treeData={treeData} blockNode />;
 };
