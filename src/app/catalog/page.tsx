@@ -1,7 +1,7 @@
 import { Metadata } from "next";
-import Image from "next/image";
-import { fetchCatalog } from "@/api";
 import { useServerTranslation } from "@/i18n";
+import { fetchCatalog } from "../api/catalog/route";
+import { Banner } from "./_components/banner";
 import { CatalogTable } from "./_components/catalog-table";
 import { CategoryTree } from "./_components/category-tree";
 import { FeaturedFilters } from "./_components/featured-filters";
@@ -32,19 +32,13 @@ export default async function Catalog({ searchParams }: IProps) {
     <div className="flex flex-col gap-4 px-2">
       <Shortcuts t={t} />
       <div className="flex gap-6">
-        <div className="flex flex-col gap-2 shrink-0">
+        <div className="flex flex-col gap-4 shrink-0 grow-0 w-60">
           <CategoryTree items={categories} />
           <FeaturedFilters />
           <Producers />
         </div>
         <div className="flex flex-col gap-2 grow shrink w-0">
-          <Image
-            alt="banner"
-            src="/2000_315_eway_v_katalog.png"
-            width={1100}
-            height={157}
-            priority={false}
-          />
+          <Banner />
           <SearchInfo text={searchParams?.search} count={count} />
           <CatalogTable data={items} t={t} />
         </div>

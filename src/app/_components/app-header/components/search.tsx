@@ -1,13 +1,13 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { Button, Input } from "antd";
 import Compact from "antd/es/space/Compact";
 import { useTranslation } from "@/i18n/client";
 import { is } from "@/utils/type-guards";
 
-export const Search: React.FC = () => {
+export const _Search: React.FC = () => {
   const { t } = useTranslation();
 
   const searchParams = useSearchParams();
@@ -41,5 +41,13 @@ export const Search: React.FC = () => {
         {t("find")}
       </Button>
     </Compact>
+  );
+};
+
+export const Search = () => {
+  return (
+    <Suspense>
+      <_Search />
+    </Suspense>
   );
 };

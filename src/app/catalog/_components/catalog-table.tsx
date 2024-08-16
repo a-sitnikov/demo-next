@@ -1,14 +1,7 @@
 import Link from "next/link";
-import { IItem } from "@/api/types";
+import { IItem } from "@/app/api/catalog/route";
 import { QtyInput } from "@/shared/qty-input";
-import {
-  IColumn,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-} from "@/ui/table";
+import { IColumn, Table, TableBody, TableCell, TableHead, TableRow } from "@/ui/table";
 import { IWithTranslate } from "@/utils/types";
 
 interface IProps extends IWithTranslate {

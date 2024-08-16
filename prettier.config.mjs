@@ -7,11 +7,13 @@ const config = {
   importOrder: [
     "^next(.*)$",
     "^react(.*)$",
+    "^usehooks-ts$",
     "^antd(.*)$",
     "^@ant-design/(.*)$",
     "^@/(.*)$",
     "^@store/(.*)$",
     "^@ui/(.*)$",
+    "^@utils/(.*)$",
     "^[./]"
   ],
   importOrderSortSpecifiers: true,
