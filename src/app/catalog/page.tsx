@@ -2,10 +2,11 @@ import { Metadata } from "next";
 import { useServerTranslation } from "@/i18n";
 import { fetchCatalog } from "../api/catalog/route";
 import { Banner } from "./_components/banner";
+import { CatalogFilters } from "./_components/catalog-filters";
 import { CatalogTable } from "./_components/catalog-table";
 import { CategoryTree } from "./_components/category-tree";
 import { FeaturedFilters } from "./_components/featured-filters";
-import { Producers } from "./_components/producers";
+import { FilterTags } from "./_components/filter-tags";
 import { SearchInfo } from "./_components/search-info";
 import { Shortcuts } from "./_components/shortcuts";
 
@@ -35,11 +36,12 @@ export default async function Catalog({ searchParams }: IProps) {
         <div className="flex flex-col gap-4 shrink-0 grow-0 w-60">
           <CategoryTree items={categories} />
           <FeaturedFilters />
-          <Producers />
+          <CatalogFilters />
         </div>
         <div className="flex flex-col gap-2 grow shrink w-0">
           <Banner />
           <SearchInfo text={searchParams?.search} count={count} />
+          <FilterTags />
           <CatalogTable data={items} t={t} />
         </div>
       </div>

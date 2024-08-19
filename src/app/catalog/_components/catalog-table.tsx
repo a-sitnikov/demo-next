@@ -45,7 +45,7 @@ export const CatalogTable: React.FC<IProps> = ({ data, t }) => {
         return <QtyInput item={row} />;
       case "name":
         return (
-          <Link href={`/catalog/${row.id}`} className="webkit-box-3">
+          <Link href={`/catalog/${row.id}`} className="c-webkit-box-3">
             {row[column.id as keyof IItem]}
           </Link>
         );

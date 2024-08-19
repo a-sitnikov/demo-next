@@ -3,22 +3,23 @@
 @tailwind utilities;
 
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
+  /*c- = custom styles*/
+  .c-text-light {
+    @apply text-neutral-400;
   }
 
-  .webkit-box-3 {
+  .c-webkit-box-3 {
     display: -webkit-box;
     overflow: hidden;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
   }
 
-  .hover-bg {
+  .c-hover-bg {
     @apply hover:bg-neutral-100;
   }
 
-  .thin-scroll {
+  .c-thin-scroll {
     scrollbar-color: #adb3be transparent;
     scrollbar-width: thin;
 
@@ -39,5 +40,6 @@
 }
 
 html {
+  /*set 1rem = 14px (default 16px)*/
   font-size: 14px;
 }

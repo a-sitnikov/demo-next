@@ -37,7 +37,7 @@ export const CollapsedList = <TOption extends TDefaultListOption>({
           key={option.id}
           checked={true}
           onChange={(e) => onChange(option.id, e.target.checked)}
-          className="!py-1 !pl-2 !pr-0 hover-bg rounded"
+          className="!py-1 !pl-2 !pr-0 c-hover-bg rounded"
         >
           {option.label}
         </Checkbox>
@@ -47,12 +47,12 @@ export const CollapsedList = <TOption extends TDefaultListOption>({
           key={option.id}
           checked={false}
           onChange={(e) => onChange(option.id, e.target.checked)}
-          className="!py-1 !pl-2 !pr-0 hover-bg rounded"
+          className="!py-1 !pl-2 !pr-0 c-hover-bg rounded"
         >
           {option.label}
         </Checkbox>
       ))}
-      <button className="w-fit text-left p-2 text-neutral-400 cursor-pointer" onClick={onExpand}>
+      <button className="w-fit text-left p-2 pb-0 c-text-light cursor-pointer" onClick={onExpand}>
         {t("show_more")}
         <DownOutlined className="text-sm ml-2" />
       </button>

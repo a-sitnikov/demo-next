@@ -1,0 +1,58 @@
+"use client";
+
+import { useMemo } from "react";
+import { useTranslation } from "@/i18n/client";
+import { is } from "@/utils/type-guards";
+import { InputNumber } from "../input-number";
+
+interface IProps {
+  value?: [string | undefined, string | undefined];
+  onChange?: (value: [string | undefined, string | undefined]) => void;
+  min?: number;
+  max?: number;
+}
+
+export const RangeFilter: React.FC<IProps> = ({
+  value = [undefined, undefined],
+  onChange,
+  min: rangeMin,
+  max: rangeMax,
+}) => {
+  const { t } = useTranslation("common");
+  const [min, max] = value;
+
+  const handleChangeMin = (newMin: string | undefined) => {
+    if (is.empty(onChange)) return;
+
+    onChange([newMin, max]);
+  };
+
+  const handleChangeMax = (newMax: string | undefined) => {
+    if (is.empty(onChange)) return;
+
+    onChange([min, newMax]);
+  };
+
+  return (
+    <div className="flex gap-2 w-full">
+      <InputNumber
+        prefix={t("range.from")}
+        min={0}
+        value={min}
+        onChange={handleChangeMin}
+        className="grow shrink"
+        placeholder={rangeMin?.toLocaleString()}
+        allowClear
+      />
+      <InputNumber
+        prefix={t("range.to")}
+        min={0}
+        value={max}
+        onChange={handleChangeMax}
+        className="grow shrink"
+        placeholder={rangeMax?.toLocaleString()}
+        allowClear
+      />
+    </div>
+  );
+};

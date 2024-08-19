@@ -11,7 +11,7 @@ interface IProps<TOption extends TDefaultListOption> {
   options: TOption[];
   value: TOption["id"][];
   onChange: (id: TOption["id"], checked: boolean) => void;
-  onCollapse: () => void;
+  onCollapse?: () => void;
 }
 
 export const ExpandedList = <TOption extends TDefaultListOption>({
@@ -49,22 +49,22 @@ export const ExpandedList = <TOption extends TDefaultListOption>({
         allowClear
         className="!mb-2"
       />
-      <div className="flex flex-col overflow-y-auto max-h-80 thin-scroll">
+      <div className="flex flex-col overflow-y-auto max-h-80 c-thin-scroll">
         {filteredOptions.map((item) => (
           <Checkbox
             key={item.id}
             checked={isChecked(item.id)}
             onChange={(e) => onChange(item.id, e.target.checked)}
-            className="!py-1 !pl-2 !pr-0 hover-bg rounded"
+            className="!py-1 !pl-2 !pr-0 c-hover-bg rounded"
           >
             {item.label}
           </Checkbox>
         ))}
-        {is.empty(filteredOptions) && <div className="pl-1 text-neutral-400">{t("not_found")}</div>}
+        {is.empty(filteredOptions) && <div className="pl-1 c-text-light">{t("not_found")}</div>}
       </div>
-      {!is.empty(search) ? null : (
+      {!is.empty(search) && !is.empty(onCollapse) ? null : (
         <button
-          className="w-fit text-left p-2 text-neutral-400 cursor-pointer"
+          className="w-fit text-left p-2 pb-0 c-text-light cursor-pointer"
           onClick={onCollapse}
         >
           {t("collapse")}

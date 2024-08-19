@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Header } from "antd/es/layout/layout";
 import { useServerTranslation } from "@/i18n";
 import { mockBasket } from "@/mock-data/basket";
 import { mockCategories } from "@/mock-data/categories";
@@ -21,28 +20,20 @@ export const AppHeader = async () => {
   const data = await getData();
 
   return (
-    <Header className="flex items-center justify-center gap-4 w-full sticky top-0 z-10">
+    <header className="flex items-center justify-center gap-4 w-full sticky top-0 z-10 py-1 px-2 bg-white">
       <UpdateStore data={data} />
       <Link href="/" className="flex-shrink-0">
-        <Image
-          alt="Logo"
-          src="/images/logo.png"
-          width={135}
-          height={40}
-          priority={true}
-        />
+        <Image alt="Logo" src="/images/logo.png" width={135} height={40} priority={true} />
       </Link>
       <CatalogButton />
       <Search />
       <BonusPoints t={t} />
       <Link href={"/orders"} className="flex flex-col items-center gap-1">
         <OrdersIcon />
-        <div className="leading-4 text-neutral-500 max-xl:hidden">
-          {t("header.orders")}
-        </div>
+        <div className="leading-4 text-neutral-500 max-xl:hidden">{t("header.orders")}</div>
       </Link>
       <BasketButton />
       <AvatarMenu />
-    </Header>
+    </header>
   );
 };

@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { useTranslation } from "@/i18n/client";
 import { mockProducers } from "@/mock-data/producers";
+import { FilterWithHeader } from "@/ui/filters/filter-with-header";
 import { ListFilter } from "@/ui/filters/list-filter";
 import { sortValuesByOptions } from "@/utils/array";
 
@@ -37,14 +38,13 @@ export const Producers = () => {
   };
 
   return (
-    <div className="flex flex-col gap-2">
-      <h4 className="font-medium">{t("filters.producer")}</h4>
+    <FilterWithHeader title={t("filters.producer")}>
       <ListFilter
         options={options}
         value={value}
         onChange={handleFilterChange}
         valueSorter={valueSorter}
       />
-    </div>
+    </FilterWithHeader>
   );
 };
