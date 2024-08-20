@@ -1,6 +1,5 @@
 "use client";
 
-import { useMemo } from "react";
 import { useTranslation } from "@/i18n/client";
 import { is } from "@/utils/type-guards";
 import { InputNumber } from "../input-number";
@@ -36,20 +35,28 @@ export const RangeFilter: React.FC<IProps> = ({
   return (
     <div className="flex gap-2 w-full">
       <InputNumber
-        prefix={t("range.from")}
+        prefix={
+          <span className={`group-focus-within:opacity-100 ${is.empty(min) ? "opacity-30 " : ""}`}>
+            {t("range.from")}
+          </span>
+        }
         min={0}
         value={min}
         onChange={handleChangeMin}
-        className="grow shrink"
+        className="grow shrink group"
         placeholder={rangeMin?.toLocaleString()}
         allowClear
       />
       <InputNumber
-        prefix={t("range.to")}
+        prefix={
+          <span className={`group-focus-within:opacity-100 ${is.empty(max) ? "opacity-30 " : ""}`}>
+            {t("range.to")}
+          </span>
+        }
         min={0}
         value={max}
         onChange={handleChangeMax}
-        className="grow shrink"
+        className="grow shrink group"
         placeholder={rangeMax?.toLocaleString()}
         allowClear
       />
