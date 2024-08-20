@@ -14,7 +14,7 @@ export interface TDefaultListOption {
 interface IProps<TOption extends TDefaultListOption> {
   options: TOption[];
   value?: TOption["id"][];
-  onChange: (value: TOption["id"][]) => void;
+  onChange?: (value: TOption["id"][]) => void;
   collapseCount?: number;
   valueSorter?: (value: TOption["id"][]) => TOption["id"][];
 }

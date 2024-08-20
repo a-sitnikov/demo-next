@@ -4,11 +4,10 @@ import { useEffect, useMemo } from "react";
 import { Form } from "antd";
 import { useAppDispatch, useAppSelector } from "@/strore/hooks";
 import { IFilter, catalogActions } from "@/strore/slices";
-import { FilterWithHeader } from "@/ui/filters/filter-with-header";
-import { FilterComponent } from "./filter-component";
-import { Producers } from "./producers";
+import { is } from "@/utils/type-guards";
+import { FilterTag } from "./filter-tag";
 
-export const CatalogFilters = () => {
+export const FilterTags = () => {
   const dispatch = useAppDispatch();
   const filters = useAppSelector((state) => state.catalog.filters);
 
@@ -29,24 +28,16 @@ export const CatalogFilters = () => {
     });
   }, [filters]);
 
-  const initialValues = useMemo(() => {
-    const values: Record<string, any> = {};
-    filters.forEach((filter) => (values[filter.id] = filter.value));
+  const allEmpty = useMemo(() => {
+    return !filters.some((filter) => !is.empty(filter.value));
+  }, [filters]);
 
-    return values;
-  }, []);
+  if (allEmpty) return null;
 
   return (
-    <Form
-      form={form}
-      initialValues={initialValues}
-      onValuesChange={handleValuesChange}
-      className="flex flex-col gap-4"
-    >
+    <Form form={form} onValuesChange={handleValuesChange} className="flex">
       {filters.map((filter) => (
-        <FilterWithHeader key={filter.id} title={filter.name}>
-          <FilterComponent filter={filter} />
-        </FilterWithHeader>
+        <FilterTag filter={filter} />
       ))}
     </Form>
   );

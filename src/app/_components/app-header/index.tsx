@@ -20,7 +20,7 @@ export const AppHeader = async () => {
   const data = await getData();
 
   return (
-    <header className="flex items-center justify-center gap-4 w-full sticky top-0 z-10 py-1 px-2 bg-white">
+    <header className="flex items-center justify-center gap-4 h-20 w-full sticky top-0 z-10 px-2 bg-white">
       <UpdateStore data={data} />
       <Link href="/" className="flex-shrink-0">
         <Image alt="Logo" src="/images/logo.png" width={135} height={40} priority={true} />

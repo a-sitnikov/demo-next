@@ -2,10 +2,10 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Checkbox } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 import { getCheckedOptions, getUncheckedOptions } from "@/utils/array";
 import { TDefaultListOption } from ".";
+import { ListRow } from "./list-row";
 
 interface IProps<TOption extends TDefaultListOption> {
   options: TOption[];
@@ -33,29 +33,17 @@ export const CollapsedList = <TOption extends TDefaultListOption>({
   return (
     <div className="flex flex-col">
       {checkedOptions.map((option) => (
-        <Checkbox
-          key={option.id}
-          checked={true}
-          onChange={(e) => onChange(option.id, e.target.checked)}
-          className="!py-1 !pl-2 !pr-0 c-hover-bg rounded"
-        >
-          {option.label}
-        </Checkbox>
+        <ListRow key={option.id} item={option} checked={true} onChange={onChange} />
       ))}
       {uncheckedOptions.map((option) => (
-        <Checkbox
-          key={option.id}
-          checked={false}
-          onChange={(e) => onChange(option.id, e.target.checked)}
-          className="!py-1 !pl-2 !pr-0 c-hover-bg rounded"
-        >
-          {option.label}
-        </Checkbox>
+        <ListRow key={option.id} item={option} checked={false} onChange={onChange} />
       ))}
-      <button className="w-fit text-left p-2 pb-0 c-text-light cursor-pointer" onClick={onExpand}>
-        {t("show_more")}
-        <DownOutlined className="text-sm ml-2" />
-      </button>
+      {options.length > count && (
+        <div className="w-fit text-left p-2 pb-0 c-text-light cursor-pointer" onClick={onExpand}>
+          {t("show_more")}
+          <DownOutlined className="text-sm ml-2" />
+        </div>
+      )}
     </div>
   );
 };

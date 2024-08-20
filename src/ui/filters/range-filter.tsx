@@ -6,7 +6,7 @@ import { InputNumber } from "../input-number";
 
 interface IProps {
   value?: [string | undefined, string | undefined];
-  onChange?: (value: [string | undefined, string | undefined]) => void;
+  onChange?: (value?: [string | undefined, string | undefined]) => void;
   min?: number;
   max?: number;
 }
@@ -23,13 +23,21 @@ export const RangeFilter: React.FC<IProps> = ({
   const handleChangeMin = (newMin: string | undefined) => {
     if (is.empty(onChange)) return;
 
-    onChange([newMin, max]);
+    if (is.empty(newMin) && is.empty(max)) {
+      onChange(undefined);
+    } else {
+      onChange([newMin, max]);
+    }
   };
 
   const handleChangeMax = (newMax: string | undefined) => {
     if (is.empty(onChange)) return;
 
-    onChange([min, newMax]);
+    if (is.empty(min) && is.empty(newMax)) {
+      onChange(undefined);
+    } else {
+      onChange([min, newMax]);
+    }
   };
 
   return (

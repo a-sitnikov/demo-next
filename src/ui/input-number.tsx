@@ -1,6 +1,6 @@
 "use client";
 
-import { forwardRef } from "react";
+import { forwardRef, useEffect, useState } from "react";
 import { Input, InputProps, InputRef } from "antd";
 import { isCorrectNumber, isNumber, isSpecialKey } from "@/utils/string";
 import { is } from "@/utils/type-guards";
@@ -10,20 +10,31 @@ interface IProps extends Omit<InputProps, "onChange"> {
 }
 
 const _InputNumber: React.ForwardRefRenderFunction<InputRef, IProps> = (
-  { onChange, ...props },
+  { onChange, value: propsValue, ...props },
   ref,
 ) => {
+  const [value, setValue] = useState<string | undefined>(propsValue as string);
+  useEffect(() => {
+    setValue(propsValue as string);
+  }, [propsValue]);
+
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
-    if (is.empty(onChange)) return;
-
-    if (is.empty(event.target.value)) {
-      onChange(undefined);
-    }
-
     const newValue = event.target.value.replaceAll(",", ".");
     if (!isCorrectNumber(newValue)) return;
 
-    onChange(newValue);
+    setValue(newValue);
+  };
+
+  const handlePressEnter = () => {
+    if (is.empty(onChange)) return;
+
+    onChange(value);
+  };
+
+  const handleBlur = () => {
+    if (is.empty(onChange)) return;
+
+    onChange(value);
   };
 
   const preventLetters = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -32,7 +43,17 @@ const _InputNumber: React.ForwardRefRenderFunction<InputRef, IProps> = (
     }
   };
 
-  return <Input ref={ref} onChange={handleChange} onKeyDown={preventLetters} {...props} />;
+  return (
+    <Input
+      ref={ref}
+      value={value}
+      onChange={handleChange}
+      onPressEnter={handlePressEnter}
+      onBlur={handleBlur}
+      onKeyDown={preventLetters}
+      {...props}
+    />
+  );
 };
 
 export const InputNumber = forwardRef(_InputNumber);

@@ -4,33 +4,34 @@ import { Key, ReactNode } from "react";
 import { Checkbox } from "antd";
 import { is } from "@/utils/type-guards";
 
-export interface TDefaultListOption {
+export interface TDefaultSmallListOption {
   id: Key;
   label: ReactNode;
+  disabled?: boolean;
 }
 
-interface IProps<TOption extends TDefaultListOption> {
+interface IProps<TOption extends TDefaultSmallListOption> {
   options: TOption[];
-  value: TOption["id"][];
-  onChange: (id: TOption["id"][]) => void;
+  value?: TOption["id"][];
+  onChange?: (id: TOption["id"][]) => void;
 }
 
-export const SmallListFilter = <TOption extends TDefaultListOption>({
+export const SmallListFilter = <TOption extends TDefaultSmallListOption>({
   options,
   value,
   onChange,
 }: IProps<TOption>) => {
   const isChecked = (itemID: TOption["id"]) => {
-    return value.some((id) => id === itemID);
+    return value?.some((id) => id === itemID);
   };
 
   const handleCheckChange = (itemID: TOption["id"], checked: boolean) => {
     if (is.empty(onChange)) return;
 
     if (checked) {
-      onChange([...value, itemID]);
+      onChange([...(value || []), itemID]);
     } else {
-      onChange(value.filter((id) => id !== itemID));
+      onChange((value || []).filter((id) => id !== itemID));
     }
   };
 
@@ -42,6 +43,7 @@ export const SmallListFilter = <TOption extends TDefaultListOption>({
           checked={isChecked(option.id)}
           onChange={(e) => handleCheckChange(option.id, e.target.checked)}
           className="!py-1 !pl-2 !pr-0 c-hover-bg rounded w-20"
+          disabled={option.disabled}
         >
           {option.label}
         </Checkbox>

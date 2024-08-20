@@ -26,11 +26,11 @@ export default function RootLayout({
     <html lang="ru">
       <body className={font.className}>
         <AppProviders>
-          <div className="flex flex-col items-center gap-2">
+          <div className="flex flex-col items-center">
             <AppHeader />
-            {/* <Suspense fallback={<Loader />}> */}
-            <div className="max-w-screen-xl w-full grow">{children}</div>
-            {/* </Suspense> */}
+            <Suspense fallback={<Loader />}>
+              <div className="max-w-screen-xl w-full grow">{children}</div>
+            </Suspense>
           </div>
         </AppProviders>
       </body>

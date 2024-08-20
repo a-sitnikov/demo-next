@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import FormItem from "antd/es/form/FormItem";
 import { useTranslation } from "@/i18n/client";
 import { mockProducers } from "@/mock-data/producers";
 import { FilterWithHeader } from "@/ui/filters/filter-with-header";
@@ -12,8 +13,6 @@ const getProducer = () => {
 };
 
 export const Producers = () => {
-  const { t } = useTranslation("catalog");
-
   const producers = getProducer();
 
   const options = useMemo(
@@ -27,24 +26,13 @@ export const Producers = () => {
     [producers],
   );
 
-  const [value, setValue] = useState<string[]>([]);
-
   const valueSorter = (newValue: string[]) => {
     return sortValuesByOptions(newValue, options, ["weight", "title"]);
   };
 
-  const handleFilterChange = (newValue: string[]) => {
-    setValue(newValue);
-  };
-
   return (
-    <FilterWithHeader title={t("filters.producer")}>
-      <ListFilter
-        options={options}
-        value={value}
-        onChange={handleFilterChange}
-        valueSorter={valueSorter}
-      />
-    </FilterWithHeader>
+    <FormItem name="producers" noStyle>
+      <ListFilter options={options} valueSorter={valueSorter} />
+    </FormItem>
   );
 };

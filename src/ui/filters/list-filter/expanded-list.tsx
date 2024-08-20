@@ -1,11 +1,14 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { Key, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { AutoSizer, CellMeasurer, CellMeasurerCache, List, ListProps } from "react-virtualized";
 import { Checkbox, Input } from "antd";
 import { UpOutlined } from "@ant-design/icons";
 import { is } from "@/utils/type-guards";
 import { TDefaultListOption } from ".";
+import { ListRow } from "./list-row";
+import { VirtualList } from "./virtual-list";
 
 interface IProps<TOption extends TDefaultListOption> {
   options: TOption[];
@@ -25,6 +28,11 @@ export const ExpandedList = <TOption extends TDefaultListOption>({
   const isUpdatedRef = useRef(false);
   const [search, setSearch] = useState("");
 
+  const cache = new CellMeasurerCache({
+    defaultHeight: 4,
+    fixedWidth: true,
+  });
+
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     isUpdatedRef.current = true;
     setSearch(event.target.value);
@@ -40,6 +48,16 @@ export const ExpandedList = <TOption extends TDefaultListOption>({
     return options.filter((item) => item.title.includes(searchLC));
   }, [search, options]);
 
+  const rowRenderer: ListProps["rowRenderer"] = ({ key, index, style, parent }) => {
+    const item = filteredOptions[index];
+
+    return (
+      <CellMeasurer cache={cache} columnIndex={0} key={key} parent={parent} rowIndex={index}>
+        <ListRow item={item} checked={isChecked(item.id)} onChange={onChange} style={style} />
+      </CellMeasurer>
+    );
+  };
+
   return (
     <div className="flex flex-col">
       <Input
@@ -49,27 +67,23 @@ export const ExpandedList = <TOption extends TDefaultListOption>({
         allowClear
         className="!mb-2"
       />
-      <div className="flex flex-col overflow-y-auto max-h-80 c-thin-scroll">
-        {filteredOptions.map((item) => (
-          <Checkbox
-            key={item.id}
-            checked={isChecked(item.id)}
-            onChange={(e) => onChange(item.id, e.target.checked)}
-            className="!py-1 !pl-2 !pr-0 c-hover-bg rounded"
-          >
-            {item.label}
-          </Checkbox>
-        ))}
-        {is.empty(filteredOptions) && <div className="pl-1 c-text-light">{t("not_found")}</div>}
-      </div>
+      {filteredOptions.length > 12 ? (
+        <div className="h-80">
+          <VirtualList options={filteredOptions} onChange={onChange} isChecked={isChecked} />
+        </div>
+      ) : (
+        <div className="flex flex-col overflow-y-auto max-h-80 c-thin-scroll">
+          {filteredOptions.map((item) => (
+            <ListRow key={item.id} item={item} checked={isChecked(item.id)} onChange={onChange} />
+          ))}
+          {is.empty(filteredOptions) && <div className="pl-1 c-text-light">{t("not_found")}</div>}
+        </div>
+      )}
       {!is.empty(search) && !is.empty(onCollapse) ? null : (
-        <button
-          className="w-fit text-left p-2 pb-0 c-text-light cursor-pointer"
-          onClick={onCollapse}
-        >
+        <div className="w-fit text-left p-2 pb-0 c-text-light cursor-pointer" onClick={onCollapse}>
           {t("collapse")}
           <UpOutlined className="text-sm ml-2" />
-        </button>
+        </div>
       )}
     </div>
   );
