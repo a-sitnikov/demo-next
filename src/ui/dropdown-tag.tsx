@@ -25,7 +25,12 @@ export const DropdownTag: React.FC<IProps> = ({ title, subtitle, dropdown, onClo
   };
 
   return (
-    <Dropdown trigger={["click"]} dropdownRender={dropdownRender} overlayClassName="max-w-72">
+    <Dropdown
+      trigger={["click"]}
+      dropdownRender={dropdownRender}
+      overlayClassName="max-w-72"
+      destroyPopupOnHide
+    >
       <Tag closable className="!flex items-center cursor-pointer" onClose={onClose}>
         {title}
         {subtitle && <span className="c-text-light pl-1">{subtitle}</span>}
