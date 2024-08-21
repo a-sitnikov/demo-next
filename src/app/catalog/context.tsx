@@ -4,6 +4,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { createContext, useContext, useMemo, useState } from "react";
 import { useDebounceCallback, useEventCallback } from "usehooks-ts";
 import { ICategory } from "@/api/types";
+import { useLoading } from "@/utils/hooks";
 import { is } from "@/utils/type-guards";
 import { IAPICatalogData, IFilter, IFilterProps, IItem } from "../api/catalog/route";
 
@@ -28,7 +29,7 @@ export const CatalogContextProvider: React.FC<IProps> = ({ initialData, children
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const [loading, setLoading] = useState(false);
+  const { loading, startLoading, finishLoading } = useLoading();
 
   const [filters, setFilters] = useState<IFilter[]>(initialData.filters);
 
@@ -47,7 +48,7 @@ export const CatalogContextProvider: React.FC<IProps> = ({ initialData, children
 
     router.push(`/catalog/?${params.toString()}`, { scroll: false });
 
-    setLoading(true);
+    startLoading();
     fetch(`/api/catalog?${params.toString()}`)
       .then((response) => {
         console.log(response);
@@ -55,7 +56,7 @@ export const CatalogContextProvider: React.FC<IProps> = ({ initialData, children
       })
       .then((data: IAPICatalogData) => setItems(data.items))
       .catch(console.log)
-      .finally(() => setLoading(false));
+      .finally(finishLoading);
   });
 
   const updateURLandDataDebounced = useDebounceCallback(updateURLandData, 300);
