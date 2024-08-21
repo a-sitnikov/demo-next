@@ -22,7 +22,7 @@ export const VirtualList = <TOption extends TDefaultListOption>({
     const item = options[index];
 
     return (
-      <CellMeasurer cache={cache} columnIndex={0} key={key} parent={parent} rowIndex={index}>
+      <CellMeasurer cache={cache} columnIndex={0} key={item.id} parent={parent} rowIndex={index}>
         <ListRow item={item} checked={isChecked(item.id)} onChange={onChange} style={style} />
       </CellMeasurer>
     );

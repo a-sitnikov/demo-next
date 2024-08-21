@@ -1,8 +1,17 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useIsClient } from "usehooks-ts";
 import { Carousel } from "antd";
 
 export const Banner = () => {
+  const isClient = useIsClient();
+
+  if (!isClient) {
+    return <div style={{ height: 157 }}></div>;
+  }
+
   return (
     <Carousel>
       <Link href="/">

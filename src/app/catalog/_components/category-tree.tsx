@@ -1,21 +1,16 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { Tree } from "antd";
 import { ICategory } from "@/api/types";
-import { useAppDispatch, useAppSelector } from "@/strore/hooks";
-import { getCategories } from "@/strore/slices";
-import { StatusEnum } from "@/strore/types";
-import { isServer } from "@/utils/common";
-import { useIsClientReady } from "@/utils/hooks";
 import { makeTree } from "@/utils/tree";
-import { is } from "@/utils/type-guards";
+import { useCatalogContext } from "../context";
 
 interface IProps {
   items: ICategory[];
 }
 
-export const CategoryTree: React.FC<IProps> = ({ items }) => {
+export const _CategoryTree: React.FC<IProps> = ({ items }) => {
   const treeData = useMemo(() => {
     return makeTree(items, (item) => ({
       key: item.id,
@@ -25,4 +20,10 @@ export const CategoryTree: React.FC<IProps> = ({ items }) => {
   }, [items]);
 
   return <Tree treeData={treeData} blockNode />;
+};
+
+export const CategoryTree: React.FC<Omit<IProps, "items">> = (props) => {
+  const { categories } = useCatalogContext();
+
+  return <_CategoryTree items={categories} {...props} />;
 };

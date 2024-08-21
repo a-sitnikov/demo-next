@@ -39,7 +39,9 @@
   }
 }
 
-html {
-  /*set 1rem = 14px (default 16px)*/
-  font-size: 14px;
+@layer base {
+  :root {
+    /*set 1rem = 14px (default 16px)*/
+    font-size: 14px;
+  }
 }

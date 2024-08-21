@@ -2,21 +2,20 @@
 
 import { useEffect, useMemo } from "react";
 import { Form } from "antd";
-import { useAppDispatch, useAppSelector } from "@/strore/hooks";
-import { IFilter, catalogActions } from "@/strore/slices";
+import { IFilter } from "@/app/api/catalog/route";
 import { is } from "@/utils/type-guards";
+import { useCatalogContext } from "../../context";
 import { FilterTag } from "./filter-tag";
 
 export const FilterTags = () => {
-  const dispatch = useAppDispatch();
-  const filters = useAppSelector((state) => state.catalog.filters);
+  const { filters, updateFilterValue } = useCatalogContext();
 
   const handleValuesChange = (
     changedValues: Record<IFilter["id"], IFilter["value"]>,
     allValues: Record<IFilter["id"], IFilter["value"]>,
   ) => {
     Object.entries(changedValues).forEach(([id, value]) => {
-      dispatch(catalogActions.updateFilterValue({ id, value }));
+      updateFilterValue(id, value);
     });
   };
 
@@ -26,7 +25,7 @@ export const FilterTags = () => {
     filters.forEach((filter) => {
       form.setFieldValue(filter.id, filter.value);
     });
-  }, [filters]);
+  }, [filters, form]);
 
   const allEmpty = useMemo(() => {
     return !filters.some((filter) => !is.empty(filter.value));
@@ -37,7 +36,7 @@ export const FilterTags = () => {
   return (
     <Form form={form} onValuesChange={handleValuesChange} className="flex">
       {filters.map((filter) => (
-        <FilterTag filter={filter} />
+        <FilterTag key={filter.id} filter={filter} />
       ))}
     </Form>
   );

@@ -1,12 +1,12 @@
 "use client";
 
 import { useMemo } from "react";
+import { IFilter } from "@/app/api/catalog/route";
 import { useTranslation } from "@/i18n/client";
-import { useAppDispatch } from "@/strore/hooks";
-import { FilterType, IFilter, catalogActions } from "@/strore/slices";
 import { DropdownTag } from "@/ui/dropdown-tag";
 import { FilterWithHeader } from "@/ui/filters/filter-with-header";
 import { is } from "@/utils/type-guards";
+import { useCatalogContext } from "../../context";
 import { FilterComponent } from "../catalog-filters/filter-component";
 
 interface IProps {
@@ -15,19 +15,19 @@ interface IProps {
 
 export const FilterTag: React.FC<IProps> = ({ filter }) => {
   const { t } = useTranslation("common");
-  const dispatch = useAppDispatch();
+  const { updateFilterValue } = useCatalogContext();
 
   const title = useMemo(() => {
     if (is.undefined(filter.value)) return null;
 
     switch (filter.type) {
-      case FilterType.List:
-      case FilterType.SmallList:
+      case "List":
+      case "SmallList":
         const value0 = filter.value[0];
         return filter.options.find((item) => item.id === value0)?.label;
-      case FilterType.Radio:
+      case "Radio":
         return filter.options.find((item) => item.id === filter.value)?.label;
-      case FilterType.Range:
+      case "Range":
         const [min, max] = filter.value;
         if (is.empty(min)) {
           return `${filter.name}: ${t("range.to")} ${max}`;
@@ -39,14 +39,14 @@ export const FilterTag: React.FC<IProps> = ({ filter }) => {
       default:
         return null;
     }
-  }, [filter]);
+  }, [filter, t]);
 
   const subtitle = useMemo(() => {
     if (is.undefined(filter.value)) return null;
 
     switch (filter.type) {
-      case FilterType.List:
-      case FilterType.SmallList:
+      case "List":
+      case "SmallList":
         const count = filter.value.length - 1;
         return count === 0 ? null : `+${count}`;
       default:
@@ -56,7 +56,7 @@ export const FilterTag: React.FC<IProps> = ({ filter }) => {
 
   const handleClose = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
-    dispatch(catalogActions.updateFilterValue({ id: filter.id, value: undefined }));
+    updateFilterValue(filter.id, undefined);
   };
 
   if (is.empty(filter.value)) return null;

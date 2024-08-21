@@ -1,44 +1,53 @@
+"use client";
+
 import Link from "next/link";
+import { useMemo } from "react";
 import { IItem } from "@/app/api/catalog/route";
+import { useTranslation } from "@/i18n/client";
 import { QtyInput } from "@/shared/qty-input";
 import { IColumn, Table, TableBody, TableCell, TableHead, TableRow } from "@/ui/table";
-import { IWithTranslate } from "@/utils/types";
+import { useCatalogContext } from "../context";
 
-interface IProps extends IWithTranslate {
-  data: IItem[];
+interface IProps {
+  items: IItem[];
 }
 
-const columns: IColumn[] = [
-  {
-    id: "id",
-    title: "table.item_id",
-    headerClassName: "w-44",
-  },
-  {
-    id: "name",
-    title: "table.name",
-  },
-  {
-    id: "remains",
-    title: "table.remains",
-    headerClassName: "text-center w-32",
-    className: "text-center",
-  },
-  {
-    id: "price",
-    title: "table.price",
-    headerClassName: "text-center w-32",
-    className: "text-center",
-  },
-  {
-    id: "qty",
-    title: "table.qty",
-    headerClassName: "text-center w-52",
-    className: "text-center w-52",
-  },
-];
+export const _CatalogTable: React.FC<IProps> = ({ items }) => {
+  const { t } = useTranslation("catalog");
 
-export const CatalogTable: React.FC<IProps> = ({ data, t }) => {
+  const columns = useMemo<IColumn[]>(
+    () => [
+      {
+        id: "id",
+        title: t("table.item_id"),
+        headerClassName: "w-44",
+      },
+      {
+        id: "name",
+        title: t("table.name"),
+      },
+      {
+        id: "remains",
+        title: t("table.remains"),
+        headerClassName: "text-center w-32",
+        className: "text-center",
+      },
+      {
+        id: "price",
+        title: t("table.price"),
+        headerClassName: "text-center w-32",
+        className: "text-center",
+      },
+      {
+        id: "qty",
+        title: t("table.qty"),
+        headerClassName: "text-center w-52",
+        className: "text-center w-52",
+      },
+    ],
+    [t],
+  );
+
   const cellView = (row: IItem, column: IColumn) => {
     switch (column.id) {
       case "qty":
@@ -56,9 +65,9 @@ export const CatalogTable: React.FC<IProps> = ({ data, t }) => {
 
   return (
     <Table>
-      <TableHead columns={columns} t={t} />
+      <TableHead columns={columns} />
       <TableBody>
-        {data.map((row) => (
+        {items.map((row) => (
           <TableRow key={row.id}>
             {columns.map((column) => (
               <TableCell key={column.id} className={column.className}>
@@ -69,5 +78,17 @@ export const CatalogTable: React.FC<IProps> = ({ data, t }) => {
         ))}
       </TableBody>
     </Table>
+  );
+};
+
+export const CatalogTable: React.FC<Omit<IProps, "items">> = (props) => {
+  const { items, loading } = useCatalogContext();
+  console.log({ loading });
+
+  return (
+    <>
+      <_CatalogTable items={items} {...props} />
+      {loading && <span>Loading</span>}
+    </>
   );
 };
