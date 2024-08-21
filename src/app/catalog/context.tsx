@@ -32,18 +32,7 @@ export const CatalogContextProvider: React.FC<IProps> = ({ initialData, children
 
   const [filters, setFilters] = useState<IFilter[]>(initialData.filters);
 
-  const updateFilterValue = useEventCallback((id: string, value: IFilterProps["value"]) => {
-    setFilters(
-      (prevFilters) =>
-        prevFilters.map((filter) =>
-          filter.id === id ? { ...filter, value } : filter,
-        ) as IFilter[],
-    );
-
-    updateURLandData();
-  });
-
-  const updateURLandData = useDebounceCallback(() => {
+  const updateURLandData = useEventCallback(() => {
     const params = new URLSearchParams();
 
     const search = searchParams.get("search");
@@ -67,6 +56,19 @@ export const CatalogContextProvider: React.FC<IProps> = ({ initialData, children
       .then((data: IAPICatalogData) => setItems(data.items))
       .catch(console.log)
       .finally(() => setLoading(false));
+  });
+
+  const updateURLandDataDebounced = useDebounceCallback(updateURLandData, 300);
+
+  const updateFilterValue = useEventCallback((id: string, value: IFilterProps["value"]) => {
+    setFilters(
+      (prevFilters) =>
+        prevFilters.map((filter) =>
+          filter.id === id ? { ...filter, value } : filter,
+        ) as IFilter[],
+    );
+
+    updateURLandDataDebounced();
   });
 
   const [items, setItems] = useState<IItem[]>(initialData.items);

@@ -100,7 +100,7 @@ export const fetchCatalog = async (searchParams: URLSearchParams): Promise<IAPIC
 
 export async function GET(request: Request) {
   const url = new URL(request.url);
-  console.log({ ss: url.searchParams });
 
-  return await fetchCatalog(url.searchParams);
+  const data = await fetchCatalog(url.searchParams);
+  return new Response(JSON.stringify(data));
 }
