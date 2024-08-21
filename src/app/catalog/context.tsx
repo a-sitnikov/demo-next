@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { createContext, useContext, useMemo, useState } from "react";
+import { createContext, useContext, useMemo, useRef, useState } from "react";
 import { useDebounceCallback, useEventCallback } from "usehooks-ts";
 import { ICategory } from "@/api/types";
 import { useLoading } from "@/utils/hooks";
@@ -33,6 +33,8 @@ export const CatalogContextProvider: React.FC<IProps> = ({ initialData, children
 
   const [filters, setFilters] = useState<IFilter[]>(initialData.filters);
 
+  const abortControllerRef = useRef(new AbortController());
+
   const updateURLandData = useEventCallback(() => {
     const params = new URLSearchParams();
 
@@ -48,8 +50,11 @@ export const CatalogContextProvider: React.FC<IProps> = ({ initialData, children
 
     router.push(`/catalog/?${params.toString()}`, { scroll: false });
 
+    abortControllerRef.current.abort();
+    abortControllerRef.current = new AbortController();
+
     startLoading();
-    fetch(`/api/catalog?${params.toString()}`)
+    fetch(`/api/catalog?${params.toString()}`, { signal: abortControllerRef.current.signal })
       .then((response) => {
         console.log(response);
         return response.json();
