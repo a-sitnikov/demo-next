@@ -3,7 +3,7 @@ import { mockCategories } from "@/mock-data/categories";
 import { mockFilters } from "@/mock-data/filters";
 import { mockItems } from "@/mock-data/items";
 import { resolveWithDelay } from "@/mock-data/utils";
-import { getFiltersValuesFromSearchParams } from "@/utils/filters";
+import { searchParamsToObject } from "@/utils/filters";
 import { is } from "@/utils/type-guards";
 
 export interface IItem {
@@ -61,6 +61,7 @@ export interface IAPICatalogData {
 
 export const fetchCatalog = async (searchParams: URLSearchParams): Promise<IAPICatalogData> => {
   const search = searchParams.get("search");
+  const filtersValues = searchParamsToObject(searchParams);
 
   if (is.empty(search)) {
     return resolveWithDelay(
@@ -69,7 +70,7 @@ export const fetchCatalog = async (searchParams: URLSearchParams): Promise<IAPIC
         count: 100,
         categories: mockCategories,
         filters: mockFilters,
-        filtersValues: getFiltersValuesFromSearchParams(searchParams),
+        filtersValues,
       },
       1000,
     );
@@ -81,7 +82,7 @@ export const fetchCatalog = async (searchParams: URLSearchParams): Promise<IAPIC
         categories: [mockCategories[0], mockCategories[1], mockCategories[2]],
         filters: mockFilters,
         searchParams,
-        filtersValues: getFiltersValuesFromSearchParams(searchParams),
+        filtersValues,
       },
       1000,
     );

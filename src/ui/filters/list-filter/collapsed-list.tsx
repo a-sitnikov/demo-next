@@ -28,9 +28,11 @@ export const CollapsedList = <TOption extends IFilterOption>({
     () => getCheckedOptions(options, toArray(value)),
     [options, value],
   );
+
+  const uncheckeCount = count - checkedOptions.length;
   const uncheckedOptions = useMemo(
-    () => getUncheckedOptions(options, toArray(value), count - value.length),
-    [options, value, count],
+    () => getUncheckedOptions(options, toArray(value), uncheckeCount),
+    [options, value, uncheckeCount],
   );
 
   return (

@@ -51,10 +51,6 @@ const _InputNumber: React.ForwardRefRenderFunction<InputRef, IProps> = (
     }
   };
 
-  const handleClick: React.MouseEventHandler<HTMLInputElement> = (event) => {
-    console.log(event);
-  };
-
   return (
     <Input
       ref={ref}

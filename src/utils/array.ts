@@ -14,6 +14,7 @@ export const getCheckedOptions = <T extends TOption>(
   checked: T["id"] | T["id"][] = [],
 ) => {
   const result: T[] = [];
+
   toArray(checked).forEach((id) => {
     const option = options.find((option) => option.id === id);
     if (!is.empty(option)) {

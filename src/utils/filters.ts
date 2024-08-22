@@ -7,16 +7,20 @@ export const isFilter = (param: string) => {
   return true;
 };
 
-export const getFiltersValuesFromSearchParams = (searchParams: URLSearchParams) => {
+export const searchParamsToObject = (searchParams: URLSearchParams) => {
   const result: Record<string, string | string[]> = {};
 
-  Array.from(searchParams).forEach(([id, value]) => {
+  Array.from(searchParams.keys()).forEach((id) => {
     if (!isFilter(id)) return;
 
-    if (is.string(value)) {
-      const match = value.match(/r\[(.*)\]/);
+    const value = searchParams.getAll(id);
+    if (is.empty(value)) return;
+
+    if (value.length === 1) {
+      const val0 = value[0];
+      const match = val0.match(/r\[(.*)\]/);
       if (is.empty(match)) {
-        result[id] = value;
+        result[id] = val0;
       } else {
         const range = match[1].split(",");
         result[id] = range;
@@ -27,6 +31,20 @@ export const getFiltersValuesFromSearchParams = (searchParams: URLSearchParams) 
   });
 
   return result;
+};
+
+export const objectToSearchParams = (obj: {} = {}) => {
+  const searchParams = new URLSearchParams();
+
+  Object.entries(obj).forEach(([id, value]) => {
+    if (is.array(value)) {
+      value.forEach((item) => searchParams.append(id, item as string));
+    } else {
+      searchParams.set(id, String(value));
+    }
+  });
+
+  return searchParams;
 };
 
 export const upadetSearchParamsFromFiltersValues = (

@@ -19,11 +19,11 @@ export const CatalogFilters = () => {
   const [form] = Form.useForm();
 
   useEffect(() => {
-    form.resetFields();
-    Object.entries(filtersValues).forEach(([id, value]) => {
-      form.setFieldValue(id, value);
+    filters.forEach((filter) => {
+      const value = filtersValues[filter.id];
+      form.setFieldValue(filter.id, value);
     });
-  }, [filtersValues, form]);
+  }, [filters, filtersValues, form]);
 
   return (
     <Form

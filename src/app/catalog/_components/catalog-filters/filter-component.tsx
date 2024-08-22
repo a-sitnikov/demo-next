@@ -1,6 +1,7 @@
+"use client";
+
 import FormItem from "antd/es/form/FormItem";
 import { IFilter } from "@/app/api/catalog/route";
-import { BoolFilter } from "@/ui/filters/bool-filter";
 import { ListFilter } from "@/ui/filters/list-filter";
 import { RadioFilter } from "@/ui/filters/radio-filter";
 import { RangeFilter } from "@/ui/filters/range-filter";
@@ -33,7 +34,7 @@ export const FilterComponent: React.FC<IProps> = ({ filter }) => {
     case "List":
       return (
         <FormItem name={filter.id} noStyle>
-          <ListFilter options={filter.options} />
+          <ListFilter key={filter.id} options={filter.options} />
         </FormItem>
       );
 

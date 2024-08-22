@@ -1,3 +1,5 @@
+"use client";
+
 interface IProps extends React.PropsWithChildren {
   title: React.ReactNode;
 }

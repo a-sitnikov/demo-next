@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { useServerTranslation } from "@/i18n";
-import AntdProvider from "../_app-providers/antd";
+import { objectToSearchParams } from "@/utils/filters";
 import { fetchCatalog } from "../api/catalog/route";
 import { Banner } from "./_components/banner";
 import { CatalogFilters } from "./_components/catalog-filters";
@@ -27,7 +27,7 @@ interface IProps {
 
 export default async function Catalog({ searchParams }: IProps) {
   const { t } = await useServerTranslation("catalog");
-  const data = await getData(new URLSearchParams(searchParams));
+  const data = await getData(objectToSearchParams(searchParams));
 
   return (
     <CatalogContextProvider initialData={data}>
