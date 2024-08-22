@@ -1,5 +1,6 @@
 import { usePathname, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { ymKey } from "@/app/_app-providers/yandex-metrika";
 import { is } from "./type-guards";
 
 export const useLoading = (initialStatus = false) => {
@@ -31,6 +32,6 @@ export const useYandexMetrika = () => {
 
   useEffect(() => {
     const url = `${pathname}?${searchParams}`;
-    ym(98134762, "hit", url);
+    ym(ymKey, "hit", url);
   }, [pathname, searchParams]);
 };

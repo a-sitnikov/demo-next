@@ -1,15 +1,16 @@
+import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { useServerTranslation } from "@/i18n";
 import { mockBasket } from "@/mock-data/basket";
 import { mockCategories } from "@/mock-data/categories";
 import { OrdersIcon } from "@/ui/svg/orders";
-import { AvatarMenu } from "./components/avatar-menu";
-import { BasketButton } from "./components/basket-button";
-import { BonusPoints } from "./components/bonus-points";
-import { CatalogButton } from "./components/catalog-button";
-import { Search } from "./components/search";
-import { UpdateStore } from "./components/update-store";
+import { AvatarMenu } from "./avatar-menu";
+import { BasketButton } from "./basket-button";
+import { BonusPoints } from "./bonus-points";
+import { CatalogButton } from "./catalog-button";
+import { Search } from "./search";
+import { UpdateStore } from "./update-store";
 
 async function getData() {
   return { basket: mockBasket, categories: mockCategories };

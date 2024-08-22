@@ -4,7 +4,7 @@ import { ConfigProvider, ThemeConfig } from "antd";
 import ru_RU from "antd/es/locale/ru_RU";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 
-const theme: ThemeConfig = {
+export const antdTheme: ThemeConfig = {
   cssVar: true,
   token: {
     fontFamily: "var(--default-font)",
@@ -15,7 +15,7 @@ const theme: ThemeConfig = {
 const AntdProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
   return (
     <AntdRegistry>
-      <ConfigProvider theme={theme} locale={ru_RU}>
+      <ConfigProvider theme={antdTheme} locale={ru_RU}>
         {children}
       </ConfigProvider>
     </AntdRegistry>
