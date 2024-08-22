@@ -5,9 +5,16 @@ interface TOption {
   id: Key;
 }
 
-export const getCheckedOptions = <T extends TOption>(options: T[], checked: T["id"][]) => {
+export const toArray = <T>(val: T | T[]): T[] => {
+  return is.array(val) ? val : [val];
+};
+
+export const getCheckedOptions = <T extends TOption>(
+  options: T[],
+  checked: T["id"] | T["id"][] = [],
+) => {
   const result: T[] = [];
-  checked.forEach((id) => {
+  toArray(checked).forEach((id) => {
     const option = options.find((option) => option.id === id);
     if (!is.empty(option)) {
       result.push(option);
@@ -19,7 +26,7 @@ export const getCheckedOptions = <T extends TOption>(options: T[], checked: T["i
 
 export const getUncheckedOptions = <T extends TOption>(
   options: T[],
-  checked: T["id"][],
+  checked: T["id"] | T["id"][],
   count: number,
 ) => {
   const result: T[] = [];
@@ -28,7 +35,7 @@ export const getUncheckedOptions = <T extends TOption>(
   let i = 0;
   while (result.length < count) {
     const option = options[i];
-    if (!checked.some((id) => id === option.id)) {
+    if (!toArray(checked).some((id) => id === option.id)) {
       result.push(option);
     }
     i++;

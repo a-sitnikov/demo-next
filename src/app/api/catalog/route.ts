@@ -1,17 +1,11 @@
 import { Key } from "react";
-import { ICategory } from "@/api/types";
 import { mockCategories } from "@/mock-data/categories";
 import { mockFilters } from "@/mock-data/filters";
 import { mockItems } from "@/mock-data/items";
 import { resolveWithDelay } from "@/mock-data/utils";
-import { TDefaultListOption } from "@/ui/filters/list-filter";
-import { TDefaultRadioOption } from "@/ui/filters/radio-filter";
-import { TDefaultSmallListOption } from "@/ui/filters/small-list-filter";
+import { getFiltersValuesFromSearchParams } from "@/utils/filters";
 import { is } from "@/utils/type-guards";
 
-interface IFetchCatalogParams {
-  search?: string | null;
-}
 export interface IItem {
   id: string;
   name: string;
@@ -21,51 +15,47 @@ export interface IItem {
   img: string;
 }
 
+export interface ICategory {
+  id: string;
+  title: string;
+  parent?: string;
+}
+
 interface IRangeFilter {
   min?: number;
   max?: number;
-  value?: [string | undefined, string | undefined];
+  unit?: string;
 }
 
-export interface IListFilter {
-  options: TDefaultListOption[];
-  value?: Key[];
+export interface IFilterOption {
+  id: string;
+  name: string;
+  disabled?: boolean;
+  weight?: number;
 }
-
-export interface ISmallListFilter {
-  options: TDefaultSmallListOption[];
-  value?: Key[];
-}
-
-export interface IRadioFilter {
-  options: TDefaultRadioOption[];
-  value?: Key;
-}
-
-export type IFilterProps = IListFilter | IRadioFilter | IRangeFilter;
 
 export type IFilter = {
   id: string;
-  name: string;
+  name?: string;
+  icon?: JSX.Element;
 } & (
-  | ({
-      type: "List";
-    } & IListFilter)
-  | ({
-      type: "SmallList";
-    } & ISmallListFilter)
-  | ({
-      type: "Radio";
-    } & IRadioFilter)
+  | {
+      type: "List" | "SmallList" | "Radio";
+      options: IFilterOption[];
+    }
   | ({
       type: "Range";
     } & IRangeFilter)
+  | {
+      type: "Bool";
+    }
 );
 
 export interface IAPICatalogData {
   items: IItem[];
   count: number;
   filters: IFilter[];
+  filtersValues: Record<string, string | string[]>;
   categories: ICategory[];
 }
 
@@ -79,6 +69,7 @@ export const fetchCatalog = async (searchParams: URLSearchParams): Promise<IAPIC
         count: 100,
         categories: mockCategories,
         filters: mockFilters,
+        filtersValues: getFiltersValuesFromSearchParams(searchParams),
       },
       1000,
     );
@@ -89,6 +80,8 @@ export const fetchCatalog = async (searchParams: URLSearchParams): Promise<IAPIC
         count: 20,
         categories: [mockCategories[0], mockCategories[1], mockCategories[2]],
         filters: mockFilters,
+        searchParams,
+        filtersValues: getFiltersValuesFromSearchParams(searchParams),
       },
       1000,
     );

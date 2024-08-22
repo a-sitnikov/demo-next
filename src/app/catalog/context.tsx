@@ -3,15 +3,16 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { createContext, useContext, useMemo, useRef, useState } from "react";
 import { useDebounceCallback, useEventCallback } from "usehooks-ts";
-import { ICategory } from "@/api/types";
-import { useLoading } from "@/utils/hooks";
+import { upadetSearchParamsFromFiltersValues } from "@/utils/filters";
+import { useLoading, useYandexMetrika } from "@/utils/hooks";
 import { is } from "@/utils/type-guards";
-import { IAPICatalogData, IFilter, IFilterProps, IItem } from "../api/catalog/route";
+import { IAPICatalogData, ICategory, IFilter, IItem } from "../api/catalog/route";
 
 interface ICatalogContext {
   filters: IFilter[];
   setFilters: React.Dispatch<React.SetStateAction<IFilter[]>>;
-  updateFilterValue: (id: string, value: IFilterProps["value"]) => void;
+  filtersValues: Record<string, string | string[]>;
+  updateFilterValue: (id: string, value: string | string[] | undefined) => void;
   items: IItem[];
   setItems: React.Dispatch<React.SetStateAction<IItem[]>>;
   categories: ICategory[];
@@ -26,12 +27,19 @@ const CatalogContext = createContext<ICatalogContext>({} as ICatalogContext);
 export const useCatalogContext = () => useContext(CatalogContext);
 
 export const CatalogContextProvider: React.FC<IProps> = ({ initialData, children }) => {
+  useYandexMetrika();
+
   const router = useRouter();
   const searchParams = useSearchParams();
 
   const { loading, startLoading, finishLoading } = useLoading();
 
-  const [filters, setFilters] = useState<IFilter[]>(initialData.filters);
+  const [filters, setFilters] = useState<ICatalogContext["filters"]>(() => [
+    ...initialData.filters,
+  ]);
+  const [filtersValues, setFiltersValues] = useState<ICatalogContext["filtersValues"]>(
+    initialData.filtersValues,
+  );
 
   const abortControllerRef = useRef(new AbortController());
 
@@ -43,10 +51,7 @@ export const CatalogContextProvider: React.FC<IProps> = ({ initialData, children
       params.set("search", search);
     }
 
-    filters.forEach((filter) => {
-      if (is.empty(filter.value)) return;
-      params.set(`f_${filter.id}`, filter.value.toString());
-    });
+    upadetSearchParamsFromFiltersValues(params, filtersValues, filters);
 
     router.push(`/catalog/?${params.toString()}`, { scroll: false });
 
@@ -55,24 +60,33 @@ export const CatalogContextProvider: React.FC<IProps> = ({ initialData, children
 
     startLoading();
     fetch(`/api/catalog?${params.toString()}`, { signal: abortControllerRef.current.signal })
-      .then((response) => {
-        console.log(response);
-        return response.json();
+      .then((response) => response.json())
+      .then((data: IAPICatalogData) => {
+        setFilters(data.filters);
+        setItems(data.items);
+        setCategories(data.categories);
       })
-      .then((data: IAPICatalogData) => setItems(data.items))
-      .catch(console.log)
+      .catch((e) => {
+        if (e.name === "AbortError") return;
+        console.log(e);
+      })
       .finally(finishLoading);
   });
 
   const updateURLandDataDebounced = useDebounceCallback(updateURLandData, 300);
 
-  const updateFilterValue = useEventCallback((id: string, value: IFilterProps["value"]) => {
-    setFilters(
-      (prevFilters) =>
-        prevFilters.map((filter) =>
-          filter.id === id ? { ...filter, value } : filter,
-        ) as IFilter[],
-    );
+  const updateFilterValue: ICatalogContext["updateFilterValue"] = useEventCallback((id, value) => {
+    setFiltersValues((prevValue) => {
+      const newValue = Object.assign({}, prevValue);
+
+      if (is.undefined(value)) {
+        delete newValue[id];
+      } else {
+        newValue[id] = value;
+      }
+
+      return newValue;
+    });
 
     updateURLandDataDebounced();
   });
@@ -84,13 +98,14 @@ export const CatalogContextProvider: React.FC<IProps> = ({ initialData, children
     () => ({
       filters,
       setFilters,
+      filtersValues,
       updateFilterValue,
       items,
       setItems,
       categories,
       loading,
     }),
-    [filters, items, updateFilterValue, categories, loading],
+    [filters, items, filtersValues, updateFilterValue, categories, loading],
   );
 
   return <CatalogContext.Provider value={contextValue}>{children}</CatalogContext.Provider>;

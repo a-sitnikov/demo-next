@@ -1,14 +1,12 @@
-import { Key, useEffect, useLayoutEffect, useRef } from "react";
-import { Checkbox, CheckboxProps, CheckboxRef } from "antd";
-import { is } from "@/utils/type-guards";
-import { TDefaultListOption } from ".";
+import { Checkbox, CheckboxProps } from "antd";
+import { IFilterOption } from "@/app/api/catalog/route";
 
-interface IProps<TOption extends TDefaultListOption> extends Omit<CheckboxProps, "onChange"> {
+interface IProps<TOption extends IFilterOption> extends Omit<CheckboxProps, "onChange"> {
   item: TOption;
-  onChange: (itemID: TOption["id"], checked: boolean) => void;
+  onChange: (itemID: string, checked: boolean) => void;
 }
 
-export const ListRow = <TOption extends TDefaultListOption>({
+export const ListRow = <TOption extends IFilterOption>({
   item,
   checked,
   onChange,
@@ -21,7 +19,7 @@ export const ListRow = <TOption extends TDefaultListOption>({
       className="!py-1 !pl-2 !pr-0 c-hover-bg rounded"
       {...props}
     >
-      {item.label}
+      {item.name}
     </Checkbox>
   );
 };

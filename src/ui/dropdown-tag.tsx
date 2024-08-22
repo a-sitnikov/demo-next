@@ -2,6 +2,7 @@
 
 import { Dropdown, Tag } from "antd";
 import useToken from "antd/es/theme/useToken";
+import { is } from "@/utils/type-guards";
 
 interface IProps {
   title: React.ReactNode;
@@ -23,6 +24,15 @@ export const DropdownTag: React.FC<IProps> = ({ title, subtitle, dropdown, onClo
   const dropdownRender = () => {
     return <div style={overlayStyle}>{dropdown}</div>;
   };
+
+  if (is.empty(dropdown)) {
+    return (
+      <Tag closable className="!flex items-center cursor-pointer" onClose={onClose}>
+        {title}
+        {subtitle && <span className="c-text-light pl-1">{subtitle}</span>}
+      </Tag>
+    );
+  }
 
   return (
     <Dropdown

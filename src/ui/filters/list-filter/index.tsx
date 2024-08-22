@@ -1,44 +1,38 @@
 "use client";
 
-import { Key, ReactNode, useState } from "react";
+import { useState } from "react";
+import { IFilterOption } from "@/app/api/catalog/route";
+import { sortValuesByOptions, toArray } from "@/utils/array";
 import { is } from "@/utils/type-guards";
 import { CollapsedList } from "./collapsed-list";
 import { ExpandedList } from "./expanded-list";
 
-export interface TDefaultListOption {
-  id: Key;
-  label: ReactNode;
-  title: string;
-}
-
-interface IProps<TOption extends TDefaultListOption> {
+interface IProps<TOption extends IFilterOption> {
   options: TOption[];
-  value?: TOption["id"][];
-  onChange?: (value: TOption["id"][]) => void;
+  value?: string | string[];
+  onChange?: (value: string[]) => void;
   collapseCount?: number;
-  valueSorter?: (value: TOption["id"][]) => TOption["id"][];
 }
 
-export const ListFilter = <TOption extends TDefaultListOption>({
+export const ListFilter = <TOption extends IFilterOption>({
   options,
   value = [],
   onChange,
   collapseCount = 5,
-  valueSorter,
 }: IProps<TOption>) => {
   const [expanded, setExpanded] = useState(false);
 
-  const handleCheckChange = (itemID: TOption["id"], checked: boolean) => {
+  const valueSorter = (newValue: string[]) => {
+    return sortValuesByOptions(newValue, options, ["weight", "name"]);
+  };
+
+  const handleCheckChange = (itemID: string, checked: boolean) => {
     if (is.empty(onChange)) return;
 
     if (checked) {
-      if (valueSorter) {
-        onChange(valueSorter([...value, itemID]));
-      } else {
-        onChange([...value, itemID]);
-      }
+      onChange(valueSorter([...toArray(value), itemID]));
     } else {
-      onChange(value.filter((id) => id !== itemID));
+      onChange(toArray(value).filter((id) => id !== itemID));
     }
   };
 

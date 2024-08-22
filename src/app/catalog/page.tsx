@@ -3,9 +3,9 @@ import { useServerTranslation } from "@/i18n";
 import { fetchCatalog } from "../api/catalog/route";
 import { Banner } from "./_components/banner";
 import { CatalogFilters } from "./_components/catalog-filters";
+import { FeaturedFilters } from "./_components/catalog-filters/featured-filters";
 import { CatalogTable } from "./_components/catalog-table";
 import { CategoryTree } from "./_components/category-tree";
-import { FeaturedFilters } from "./_components/featured-filters";
 import { FilterTags } from "./_components/filter-tags";
 import { SearchInfo } from "./_components/search-info";
 import { Shortcuts } from "./_components/shortcuts";
@@ -37,7 +37,6 @@ export default async function Catalog({ searchParams }: IProps) {
         <div className="flex gap-6">
           <div className="flex flex-col gap-4 shrink-0 grow-0 w-60">
             <CategoryTree />
-            <FeaturedFilters />
             <CatalogFilters />
           </div>
           <div className="flex flex-col gap-2 grow shrink w-0">

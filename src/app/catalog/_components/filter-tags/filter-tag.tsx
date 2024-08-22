@@ -15,51 +15,67 @@ interface IProps {
 
 export const FilterTag: React.FC<IProps> = ({ filter }) => {
   const { t } = useTranslation("common");
-  const { updateFilterValue } = useCatalogContext();
+  const { t: t_cat } = useTranslation("catalog");
+  const { filtersValues, updateFilterValue } = useCatalogContext();
+
+  const value = filtersValues[filter.id];
 
   const title = useMemo(() => {
-    if (is.undefined(filter.value)) return null;
+    if (is.undefined(value)) return null;
 
     switch (filter.type) {
       case "List":
       case "SmallList":
-        const value0 = filter.value[0];
-        return filter.options.find((item) => item.id === value0)?.label;
+        const value0 = value[0];
+        return filter.options.find((item) => item.id === value0)?.name;
       case "Radio":
-        return filter.options.find((item) => item.id === filter.value)?.label;
+        return filter.options.find((item) => item.id === value)?.name;
       case "Range":
-        const [min, max] = filter.value;
+        if (!is.array(value)) return null;
+
+        const [min, max] = value;
+        let name = "";
+
         if (is.empty(min)) {
-          return `${filter.name}: ${t("range.to")} ${max}`;
+          name = `${t("range.to")} ${max}`;
         } else if (is.empty(max)) {
-          return `${filter.name}: ${t("range.from")} ${min}`;
+          name = `${t("range.from")} ${min}`;
         } else {
-          return `${filter.name}: ${min} - ${max}`;
+          name = `${min} - ${max}`;
         }
+
+        if (!is.empty(filter.unit)) {
+          name += " " + filter.unit;
+        }
+
+        return name;
+
+      case "Bool":
+        return t_cat(filter.name || "");
       default:
         return null;
     }
-  }, [filter, t]);
+  }, [filter, value, t]);
 
   const subtitle = useMemo(() => {
-    if (is.undefined(filter.value)) return null;
+    if (is.undefined(value)) return null;
 
     switch (filter.type) {
       case "List":
       case "SmallList":
-        const count = filter.value.length - 1;
+        const count = value.length - 1;
         return count === 0 ? null : `+${count}`;
       default:
         return null;
     }
-  }, [filter]);
+  }, [filter, value]);
 
   const handleClose = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
     updateFilterValue(filter.id, undefined);
   };
 
-  if (is.empty(filter.value)) return null;
+  if (is.empty(value)) return null;
 
   return (
     <DropdownTag
@@ -67,9 +83,11 @@ export const FilterTag: React.FC<IProps> = ({ filter }) => {
       subtitle={subtitle}
       onClose={handleClose}
       dropdown={
-        <FilterWithHeader key={filter.id} title={filter.name}>
-          <FilterComponent filter={filter} />
-        </FilterWithHeader>
+        filter.type === "Bool" ? undefined : (
+          <FilterWithHeader key={filter.id} title={filter.name}>
+            <FilterComponent filter={filter} />
+          </FilterWithHeader>
+        )
       }
     />
   );

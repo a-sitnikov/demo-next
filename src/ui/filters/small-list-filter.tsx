@@ -5,8 +5,8 @@ import { Checkbox } from "antd";
 import { is } from "@/utils/type-guards";
 
 export interface TDefaultSmallListOption {
-  id: Key;
-  label: ReactNode;
+  id?: Key;
+  name: ReactNode;
   disabled?: boolean;
 }
 
@@ -45,7 +45,7 @@ export const SmallListFilter = <TOption extends TDefaultSmallListOption>({
           className="!py-1 !pl-2 !pr-0 c-hover-bg rounded w-20"
           disabled={option.disabled}
         >
-          {option.label}
+          {option.name}
         </Checkbox>
       ))}
     </div>

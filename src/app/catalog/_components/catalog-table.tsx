@@ -83,7 +83,6 @@ export const _CatalogTable: React.FC<IProps> = ({ items }) => {
 
 export const CatalogTable: React.FC<Omit<IProps, "items">> = (props) => {
   const { items, loading } = useCatalogContext();
-  console.log({ loading });
 
   return (
     <>

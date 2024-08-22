@@ -1,4 +1,4 @@
-import { ICategory } from "../api/types";
+import { ICategory } from "@/app/api/catalog/route";
 
 export const mockCategories: ICategory[] = [
   {

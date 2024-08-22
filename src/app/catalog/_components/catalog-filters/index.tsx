@@ -1,19 +1,16 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import { Form } from "antd";
-import { IFilter } from "@/app/api/catalog/route";
 import { FilterWithHeader } from "@/ui/filters/filter-with-header";
 import { useCatalogContext } from "../../context";
+import { FeaturedFilters } from "./featured-filters";
 import { FilterComponent } from "./filter-component";
 
 export const CatalogFilters = () => {
-  const { filters, updateFilterValue } = useCatalogContext();
+  const { filters, filtersValues, updateFilterValue } = useCatalogContext();
 
-  const handleValuesChange = (
-    changedValues: Record<IFilter["id"], IFilter["value"]>,
-    allValues: Record<IFilter["id"], IFilter["value"]>,
-  ) => {
+  const handleValuesChange = (changedValues: Record<string, string | string[]>) => {
     Object.entries(changedValues).forEach(([id, value]) => {
       updateFilterValue(id, value);
     });
@@ -22,25 +19,20 @@ export const CatalogFilters = () => {
   const [form] = Form.useForm();
 
   useEffect(() => {
-    filters.forEach((filter) => {
-      form.setFieldValue(filter.id, filter.value);
+    form.resetFields();
+    Object.entries(filtersValues).forEach(([id, value]) => {
+      form.setFieldValue(id, value);
     });
-  }, [filters, form]);
-
-  const initialValues = useMemo(() => {
-    const values: Record<string, any> = {};
-    filters.forEach((filter) => (values[filter.id] = filter.value));
-
-    return values;
-  }, [filters]);
+  }, [filtersValues, form]);
 
   return (
     <Form
       form={form}
-      initialValues={initialValues}
+      initialValues={filtersValues}
       onValuesChange={handleValuesChange}
       className="flex flex-col gap-4"
     >
+      <FeaturedFilters />
       {filters.map((filter) => (
         <FilterWithHeader key={filter.id} title={filter.name}>
           <FilterComponent filter={filter} />

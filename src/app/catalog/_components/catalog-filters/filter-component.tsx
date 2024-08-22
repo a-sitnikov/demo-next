@@ -1,11 +1,10 @@
 import FormItem from "antd/es/form/FormItem";
 import { IFilter } from "@/app/api/catalog/route";
+import { BoolFilter } from "@/ui/filters/bool-filter";
 import { ListFilter } from "@/ui/filters/list-filter";
 import { RadioFilter } from "@/ui/filters/radio-filter";
 import { RangeFilter } from "@/ui/filters/range-filter";
 import { SmallListFilter } from "@/ui/filters/small-list-filter";
-import { sortValuesByOptions } from "@/utils/array";
-import { Producers } from "./producers";
 
 interface IProps {
   filter: IFilter;
@@ -32,15 +31,11 @@ export const FilterComponent: React.FC<IProps> = ({ filter }) => {
         </FormItem>
       );
     case "List":
-      if (filter.id === "producers") {
-        return <Producers />;
-      } else {
-        return (
-          <FormItem name={filter.id} noStyle>
-            <ListFilter options={filter.options} />
-          </FormItem>
-        );
-      }
+      return (
+        <FormItem name={filter.id} noStyle>
+          <ListFilter options={filter.options} />
+        </FormItem>
+      );
 
     default:
       return null;

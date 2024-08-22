@@ -1,67 +1,67 @@
 export const mockProducers = [
   {
     id: "1",
-    title: "3M",
+    name: "3M",
     weight: 1,
   },
   {
     id: "2",
-    title: "ABL SURSUM",
+    name: "ABL SURSUM",
     weight: 2,
   },
   {
     id: "3",
-    title: "Belden",
+    name: "Belden",
     weight: 3,
   },
   {
     id: "4",
-    title: "NEWPORT",
+    name: "NEWPORT",
     weight: 4,
   },
   {
     id: "5",
-    title: "Osram",
+    name: "Osram",
     weight: 5,
   },
   {
     id: "6",
-    title: "Renata",
+    name: "Renata",
     weight: 6,
   },
   {
     id: "7",
-    title: "Savoy House",
+    name: "Savoy House",
     weight: 7,
   },
   {
     id: "8",
-    title: "SHTOK",
+    name: "SHTOK",
     weight: 9,
   },
   {
     id: "9",
-    title: "TEXENERGO",
+    name: "TEXENERGO",
     weight: 1,
   },
   {
     id: "10",
-    title: "Vitaluce",
+    name: "Vitaluce",
     weight: 1,
   },
   {
     id: "11",
-    title: "Zpas",
+    name: "Zpas",
     weight: 1,
   },
   {
     id: "12",
-    title: "БАСТИОН",
+    name: "БАСТИОН",
     weight: 1,
   },
   {
     id: "13",
-    title: "Инкотекс СК",
+    name: "Инкотекс СК",
     weight: 1,
   },
 ];

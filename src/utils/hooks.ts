@@ -1,4 +1,5 @@
-import { useCallback, useRef, useState } from "react";
+import { usePathname, useSearchParams } from "next/navigation";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { is } from "./type-guards";
 
 export const useLoading = (initialStatus = false) => {
@@ -20,4 +21,16 @@ export const useLoading = (initialStatus = false) => {
   }, []);
 
   return { loading, startLoading, finishLoading };
+};
+
+declare const ym: any;
+
+export const useYandexMetrika = () => {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const url = `${pathname}?${searchParams}`;
+    ym(98134762, "hit", url);
+  }, [pathname, searchParams]);
 };

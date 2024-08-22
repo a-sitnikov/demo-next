@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 import { Tree } from "antd";
-import { ICategory } from "@/api/types";
+import { ICategory } from "@/app/api/catalog/route";
 import { makeTree } from "@/utils/tree";
 import { useCatalogContext } from "../context";
 

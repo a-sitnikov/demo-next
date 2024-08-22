@@ -23,24 +23,36 @@ const _InputNumber: React.ForwardRefRenderFunction<InputRef, IProps> = (
     if (!isCorrectNumber(newValue)) return;
 
     setValue(newValue);
+
+    if (!is.empty(onChange) && event.type === "click") {
+      onChange(newValue);
+    }
   };
 
   const handlePressEnter = () => {
     if (is.empty(onChange)) return;
 
-    onChange(value);
+    if (value !== propsValue) {
+      onChange(value);
+    }
   };
 
   const handleBlur = () => {
     if (is.empty(onChange)) return;
 
-    onChange(value);
+    if (value !== propsValue) {
+      onChange(value);
+    }
   };
 
   const preventLetters = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (!isNumber(event.key) && !isSpecialKey(event.key)) {
       event.preventDefault();
     }
+  };
+
+  const handleClick: React.MouseEventHandler<HTMLInputElement> = (event) => {
+    console.log(event);
   };
 
   return (

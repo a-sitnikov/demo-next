@@ -1,23 +1,23 @@
 "use client";
 
-import { Key, useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { AutoSizer, CellMeasurer, CellMeasurerCache, List, ListProps } from "react-virtualized";
-import { Checkbox, Input } from "antd";
+import { Input } from "antd";
 import { UpOutlined } from "@ant-design/icons";
+import { IFilterOption } from "@/app/api/catalog/route";
+import { toArray } from "@/utils/array";
 import { is } from "@/utils/type-guards";
-import { TDefaultListOption } from ".";
 import { ListRow } from "./list-row";
 import { VirtualList } from "./virtual-list";
 
-interface IProps<TOption extends TDefaultListOption> {
+interface IProps<TOption extends IFilterOption> {
   options: TOption[];
-  value: TOption["id"][];
-  onChange: (id: TOption["id"], checked: boolean) => void;
+  value: string | string[];
+  onChange: (id: string, checked: boolean) => void;
   onCollapse?: () => void;
 }
 
-export const ExpandedList = <TOption extends TDefaultListOption>({
+export const ExpandedList = <TOption extends IFilterOption>({
   options,
   value,
   onChange,
@@ -28,35 +28,20 @@ export const ExpandedList = <TOption extends TDefaultListOption>({
   const isUpdatedRef = useRef(false);
   const [search, setSearch] = useState("");
 
-  const cache = new CellMeasurerCache({
-    defaultHeight: 4,
-    fixedWidth: true,
-  });
-
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     isUpdatedRef.current = true;
     setSearch(event.target.value);
   };
 
   const isChecked = (itemID: TOption["id"]) => {
-    return value.some((id) => id === itemID);
+    return toArray(value).some((id) => id === itemID);
   };
 
   const filteredOptions = useMemo(() => {
     const searchLC = search.toLocaleLowerCase();
 
-    return options.filter((item) => item.title.includes(searchLC));
+    return options.filter((item) => item.name.toLocaleLowerCase().includes(searchLC));
   }, [search, options]);
-
-  const rowRenderer: ListProps["rowRenderer"] = ({ key, index, style, parent }) => {
-    const item = filteredOptions[index];
-
-    return (
-      <CellMeasurer cache={cache} columnIndex={0} key={key} parent={parent} rowIndex={index}>
-        <ListRow item={item} checked={isChecked(item.id)} onChange={onChange} style={style} />
-      </CellMeasurer>
-    );
-  };
 
   return (
     <div className="flex flex-col">

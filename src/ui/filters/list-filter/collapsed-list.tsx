@@ -3,19 +3,19 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { DownOutlined } from "@ant-design/icons";
-import { getCheckedOptions, getUncheckedOptions } from "@/utils/array";
-import { TDefaultListOption } from ".";
+import { IFilterOption } from "@/app/api/catalog/route";
+import { getCheckedOptions, getUncheckedOptions, toArray } from "@/utils/array";
 import { ListRow } from "./list-row";
 
-interface IProps<TOption extends TDefaultListOption> {
+interface IProps<TOption extends IFilterOption> {
   options: TOption[];
-  value: TOption["id"][];
+  value: string | string[];
   count: number;
-  onChange: (id: TOption["id"], checked: boolean) => void;
+  onChange: (id: string, checked: boolean) => void;
   onExpand: () => void;
 }
 
-export const CollapsedList = <TOption extends TDefaultListOption>({
+export const CollapsedList = <TOption extends IFilterOption>({
   options,
   value,
   count,
@@ -24,9 +24,12 @@ export const CollapsedList = <TOption extends TDefaultListOption>({
 }: IProps<TOption>) => {
   const { t } = useTranslation("common");
 
-  const checkedOptions = useMemo(() => getCheckedOptions(options, value), [options, value]);
+  const checkedOptions = useMemo(
+    () => getCheckedOptions(options, toArray(value)),
+    [options, value],
+  );
   const uncheckedOptions = useMemo(
-    () => getUncheckedOptions(options, value, count - value.length),
+    () => getUncheckedOptions(options, toArray(value), count - value.length),
     [options, value, count],
   );
 

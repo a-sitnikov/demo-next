@@ -2,18 +2,14 @@
 
 import { useEffect, useMemo } from "react";
 import { Form } from "antd";
-import { IFilter } from "@/app/api/catalog/route";
-import { is } from "@/utils/type-guards";
 import { useCatalogContext } from "../../context";
+import { featuredFilters } from "../catalog-filters/featured-filters";
 import { FilterTag } from "./filter-tag";
 
 export const FilterTags = () => {
-  const { filters, updateFilterValue } = useCatalogContext();
+  const { filters, filtersValues, updateFilterValue } = useCatalogContext();
 
-  const handleValuesChange = (
-    changedValues: Record<IFilter["id"], IFilter["value"]>,
-    allValues: Record<IFilter["id"], IFilter["value"]>,
-  ) => {
+  const handleValuesChange = (changedValues: Record<string, string | string[] | undefined>) => {
     Object.entries(changedValues).forEach(([id, value]) => {
       updateFilterValue(id, value);
     });
@@ -22,19 +18,23 @@ export const FilterTags = () => {
   const [form] = Form.useForm();
 
   useEffect(() => {
-    filters.forEach((filter) => {
-      form.setFieldValue(filter.id, filter.value);
+    form.resetFields();
+    Object.entries(filtersValues).forEach(([id, value]) => {
+      form.setFieldValue(id, value);
     });
-  }, [filters, form]);
+  }, [filtersValues, form]);
 
   const allEmpty = useMemo(() => {
-    return !filters.some((filter) => !is.empty(filter.value));
-  }, [filters]);
+    return Object.entries(filtersValues).length === 0;
+  }, [filtersValues]);
 
   if (allEmpty) return null;
 
   return (
     <Form form={form} onValuesChange={handleValuesChange} className="flex">
+      {featuredFilters.map((filter) => (
+        <FilterTag key={filter.id} filter={filter} />
+      ))}
       {filters.map((filter) => (
         <FilterTag key={filter.id} filter={filter} />
       ))}
