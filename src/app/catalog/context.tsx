@@ -1,14 +1,15 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { createContext, useContext, useMemo, useRef, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { useDebounceCallback, useEventCallback } from "usehooks-ts";
+import { Form, FormInstance } from "antd";
 import { upadetSearchParamsFromFiltersValues } from "@/utils/filters";
 import { useLoading, useYandexMetrika } from "@/utils/hooks";
 import { is } from "@/utils/type-guards";
 import { IAPICatalogData, ICategory, IFilter, IItem } from "../api/catalog/route";
 
-interface ICatalogContext {
+export interface ICatalogContext {
   filters: IFilter[];
   setFilters: React.Dispatch<React.SetStateAction<IFilter[]>>;
   filtersValues: Record<string, string | string[]>;
@@ -17,6 +18,7 @@ interface ICatalogContext {
   setItems: React.Dispatch<React.SetStateAction<IItem[]>>;
   categories: ICategory[];
   loading: boolean;
+  filtersForm: FormInstance;
 }
 
 interface IProps extends React.PropsWithChildren {
@@ -40,6 +42,15 @@ export const CatalogContextProvider: React.FC<IProps> = ({ initialData, children
   const [filtersValues, setFiltersValues] = useState<ICatalogContext["filtersValues"]>(
     initialData.filtersValues,
   );
+
+  const [filtersForm] = Form.useForm();
+
+  useEffect(() => {
+    Object.keys(filtersForm.getFieldsValue(true)).forEach((id) => {
+      const value = filtersValues[id];
+      filtersForm.setFieldValue(id, value);
+    });
+  }, [filtersValues, filtersForm]);
 
   const abortControllerRef = useRef(new AbortController());
 
@@ -104,8 +115,9 @@ export const CatalogContextProvider: React.FC<IProps> = ({ initialData, children
       setItems,
       categories,
       loading,
+      filtersForm,
     }),
-    [filters, items, filtersValues, updateFilterValue, categories, loading],
+    [filters, items, filtersValues, updateFilterValue, categories, loading, filtersForm],
   );
 
   return <CatalogContext.Provider value={contextValue}>{children}</CatalogContext.Provider>;
