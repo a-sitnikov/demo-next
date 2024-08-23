@@ -23,16 +23,22 @@ export interface ICatalogContext {
 
 interface IProps extends React.PropsWithChildren {
   initialData: IAPICatalogData;
+  searchParams?: {
+    search?: string;
+  };
 }
 
 const CatalogContext = createContext<ICatalogContext>({} as ICatalogContext);
 export const useCatalogContext = () => useContext(CatalogContext);
 
-export const CatalogContextProvider: React.FC<IProps> = ({ initialData, children }) => {
+export const CatalogContextProvider: React.FC<IProps> = ({
+  initialData,
+  searchParams,
+  children,
+}) => {
   useYandexMetrika();
 
   const router = useRouter();
-  const searchParams = useSearchParams();
 
   const { loading, startLoading, finishLoading } = useLoading();
 
@@ -50,7 +56,7 @@ export const CatalogContextProvider: React.FC<IProps> = ({ initialData, children
   const updateURLandData = useEventCallback(() => {
     const params = new URLSearchParams();
 
-    const search = searchParams.get("search");
+    const search = searchParams?.search;
     if (!is.empty(search)) {
       params.set("search", search);
     }

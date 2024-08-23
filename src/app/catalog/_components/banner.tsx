@@ -7,7 +7,7 @@ import { Carousel } from "antd";
 export const Banner = () => {
   return (
     <Carousel>
-      <Link href="/">
+      <Link href="/" prefetch={false}>
         <Image
           alt="banner"
           src="/2000_315_eway_v_katalog.png"
@@ -16,7 +16,7 @@ export const Banner = () => {
           priority={false}
         />
       </Link>
-      <Link href="/">
+      <Link href="/" prefetch={false}>
         <Image
           alt="banner"
           src="/group_1000003051.png"

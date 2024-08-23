@@ -1,4 +1,3 @@
-import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { useServerTranslation } from "@/i18n";
@@ -16,14 +15,20 @@ async function getData() {
   return { basket: mockBasket, categories: mockCategories };
 }
 
-export const AppHeader = async () => {
+interface IProps {
+  searchParams?: {
+    search?: string;
+  };
+}
+
+export const AppHeader = async ({ searchParams }: IProps) => {
   const { t } = await useServerTranslation();
   const data = await getData();
 
   return (
     <header className="flex items-center justify-center gap-4 h-20 w-full sticky top-0 z-10 px-2 bg-white">
       <UpdateStore data={data} />
-      <Link href="/" className="flex-shrink-0">
+      <Link href="/" className="flex-shrink-0" prefetch={false}>
         <Image alt="Logo" src="/images/logo.png" width={135} height={40} priority={true} />
       </Link>
       <CatalogButton />

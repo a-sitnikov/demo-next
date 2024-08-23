@@ -2,11 +2,11 @@
 
 import Link from "next/link";
 import { useMemo } from "react";
+import { IItem } from "@/api/catalog";
 import { useTranslation } from "@/i18n/client";
 import { QtyInput } from "@/shared/qty-input";
 import { IColumn, Table, TableBody, TableCell, TableHead, TableRow } from "@/ui/table";
 import { useCatalogContext } from "../context";
-import { IItem } from "@/api/catalog";
 
 interface IProps {
   items: IItem[];
@@ -54,7 +54,7 @@ export const _CatalogTable: React.FC<IProps> = ({ items }) => {
         return <QtyInput item={row} />;
       case "name":
         return (
-          <Link href={`/catalog/${row.id}`} className="c-webkit-box-3">
+          <Link href={`/catalog/${row.id}`} className="c-webkit-box-3" prefetch={false}>
             {row[column.id as keyof IItem]}
           </Link>
         );

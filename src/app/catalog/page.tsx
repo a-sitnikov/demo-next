@@ -30,7 +30,7 @@ export default async function Catalog({ searchParams }: IProps) {
   const data = await getData(objectToSearchParams(searchParams));
 
   return (
-    <CatalogContextProvider initialData={data}>
+    <CatalogContextProvider initialData={data} searchParams={searchParams}>
       <div className="flex flex-col gap-4 px-2">
         <Shortcuts t={t} />
         <div className="flex gap-6">

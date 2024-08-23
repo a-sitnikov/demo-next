@@ -29,6 +29,7 @@ export const Shortcuts: React.FC<IWithTranslate> = ({ t }) => {
           key={item.title}
           href={item.href}
           className="flex gap-1 c-active-bg c-hover-active-bg rounded px-2 py-1 cursor-pointer"
+          prefetch={false}
         >
           {item.icon}
           <span>{t(item.title)}</span>

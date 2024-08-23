@@ -7,7 +7,7 @@ import Compact from "antd/es/space/Compact";
 import { useTranslation } from "@/i18n/client";
 import { is } from "@/utils/type-guards";
 
-export const _Search: React.FC = () => {
+export const _Search: React.FC = (Х) => {
   const { t } = useTranslation();
 
   const searchParams = useSearchParams();
