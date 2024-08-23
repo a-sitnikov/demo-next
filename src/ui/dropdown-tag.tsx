@@ -27,7 +27,7 @@ export const DropdownTag: React.FC<IProps> = ({ title, subtitle, dropdown, onClo
 
   if (is.empty(dropdown)) {
     return (
-      <Tag closable className="!flex items-center cursor-pointer" onClose={onClose}>
+      <Tag closable className="!flex items-center" onClose={onClose}>
         {title}
         {subtitle && <span className="c-text-light pl-1">{subtitle}</span>}
       </Tag>

@@ -1,6 +1,6 @@
-import { IItem } from "@/api/types";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { IItem } from "@/api/catalog";
 import { calculateSum } from "@/utils/common";
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface IBasketEntity {
   item: IItem;
@@ -30,20 +30,15 @@ const slice = createSlice({
   name: "basket",
   initialState,
   reducers: {
-    init: (
-      state,
-      { payload: { entities } }: PayloadAction<{ entities: IBasketEntity[] }>
-    ) => {
+    init: (state, { payload: { entities } }: PayloadAction<{ entities: IBasketEntity[] }>) => {
       state.entities = entities;
       calculateTotal(state);
     },
     upsertItem: (
       state,
-      { payload: { item, qty } }: PayloadAction<{ item: IItem; qty: number }>
+      { payload: { item, qty } }: PayloadAction<{ item: IItem; qty: number }>,
     ) => {
-      const index = state.entities.findIndex(
-        (entity) => entity.item.id === item.id
-      );
+      const index = state.entities.findIndex((entity) => entity.item.id === item.id);
 
       if (qty === 0) {
         if (index !== -1) state.entities.splice(index, 1);

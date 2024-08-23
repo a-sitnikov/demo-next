@@ -4,7 +4,7 @@ import { useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Input } from "antd";
 import { UpOutlined } from "@ant-design/icons";
-import { IFilterOption } from "@/app/api/catalog/route";
+import { IFilterOption } from "@/api/catalog";
 import { toArray } from "@/utils/array";
 import { is } from "@/utils/type-guards";
 import { ListRow } from "./list-row";

@@ -5,7 +5,6 @@ import ru_RU from "antd/es/locale/ru_RU";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 
 export const antdTheme: ThemeConfig = {
-  cssVar: true,
   token: {
     fontFamily: "var(--default-font)",
     colorPrimary: "#FA7814",

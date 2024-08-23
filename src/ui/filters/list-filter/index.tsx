@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { IFilterOption } from "@/app/api/catalog/route";
+import { IFilterOption } from "@/api/catalog";
 import { sortValuesByOptions, toArray } from "@/utils/array";
 import { is } from "@/utils/type-guards";
 import { CollapsedList } from "./collapsed-list";

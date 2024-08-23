@@ -19,6 +19,14 @@
     @apply hover:bg-neutral-100;
   }
 
+  .c-hover-active-bg {
+    @apply hover:bg-orange-200;
+  }
+
+  .c-active-bg {
+    @apply bg-orange-100;
+  }
+
   .c-thin-scroll {
     scrollbar-color: #adb3be transparent;
     scrollbar-width: thin;

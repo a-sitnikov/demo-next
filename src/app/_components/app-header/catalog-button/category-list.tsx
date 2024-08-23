@@ -6,17 +6,18 @@ import { useAppSelector } from "@/strore/hooks";
 import { makeTree } from "@/utils/tree";
 
 export const CategoryList: React.FC = () => {
-  const categories = useAppSelector((state) => state.categories.items);
+  return null;
+  // const categories = useAppSelector((state) => state.categories.items);
 
-  const treeData = useMemo(
-    () =>
-      makeTree(categories, (item) => ({
-        key: item.id,
-        title: item.title,
-        children: [],
-      })),
-    [categories],
-  );
+  // const treeData = useMemo(
+  //   () =>
+  //     makeTree(categories, (item) => ({
+  //       key: item.id,
+  //       title: item.title,
+  //       children: [],
+  //     })),
+  //   [categories],
+  // );
 
-  return <Tree treeData={treeData} blockNode />;
+  // return <Tree treeData={treeData} blockNode />;
 };

@@ -1,5 +1,5 @@
 import { Checkbox, CheckboxProps } from "antd";
-import { IFilterOption } from "@/app/api/catalog/route";
+import { IFilterOption } from "@/api/catalog";
 
 interface IProps<TOption extends IFilterOption> extends Omit<CheckboxProps, "onChange"> {
   item: TOption;

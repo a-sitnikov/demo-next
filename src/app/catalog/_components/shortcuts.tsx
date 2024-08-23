@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { SettingOutlined } from "@ant-design/icons";
 import { mockCategories } from "@/mock-data/categories";
 import { IWithTranslate } from "@/utils/types";
@@ -6,12 +7,15 @@ const items = [
   {
     icon: <SettingOutlined />,
     title: "shortcuts.configurators",
+    href: "/configurators",
   },
   {
     title: "filters.good_prices",
+    href: "/catalog?good_prices=1",
   },
   {
     title: "filters.cashback",
+    href: "/catalog?cashback=1",
   },
 ];
 
@@ -21,18 +25,19 @@ export const Shortcuts: React.FC<IWithTranslate> = ({ t }) => {
   return (
     <div className="flex gap-4 text-xs">
       {items.map((item) => (
-        <div
+        <Link
           key={item.title}
-          className="flex gap-1 bg-orange-100 rounded px-2 py-1 cursor-pointer hover:bg-orange-200"
+          href={item.href}
+          className="flex gap-1 c-active-bg c-hover-active-bg rounded px-2 py-1 cursor-pointer"
         >
           {item.icon}
           <span>{t(item.title)}</span>
-        </div>
+        </Link>
       ))}
       {featuredCategories.map((item) => (
         <div
           key={item.title}
-          className="flex gap-1 bg-orange-100 rounded px-2 py-1 cursor-pointer hover:bg-orange-200"
+          className="flex gap-1 c-active-bg c-hover-active-bg rounded px-2 py-1 cursor-pointer"
         >
           <span>{item.title}</span>
         </div>

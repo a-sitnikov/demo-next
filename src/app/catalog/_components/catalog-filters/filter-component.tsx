@@ -1,7 +1,7 @@
 "use client";
 
 import FormItem from "antd/es/form/FormItem";
-import { IFilter } from "@/app/api/catalog/route";
+import { IFilter } from "@/api/catalog";
 import { ListFilter } from "@/ui/filters/list-filter";
 import { RadioFilter } from "@/ui/filters/radio-filter";
 import { RangeFilter } from "@/ui/filters/range-filter";

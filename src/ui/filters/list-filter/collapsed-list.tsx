@@ -3,7 +3,7 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { DownOutlined } from "@ant-design/icons";
-import { IFilterOption } from "@/app/api/catalog/route";
+import { IFilterOption } from "@/api/catalog";
 import { getCheckedOptions, getUncheckedOptions, toArray } from "@/utils/array";
 import { ListRow } from "./list-row";
 

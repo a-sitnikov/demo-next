@@ -1,7 +1,7 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
-import { Suspense, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { Suspense, useEffect, useState } from "react";
 import { Button, Input } from "antd";
 import Compact from "antd/es/space/Compact";
 import { useTranslation } from "@/i18n/client";
@@ -11,20 +11,40 @@ export const _Search: React.FC = () => {
   const { t } = useTranslation();
 
   const searchParams = useSearchParams();
-  const [search, setSearch] = useState(() => searchParams.get("search") || "");
-
-  const { push } = useRouter();
+  const urlSearch = searchParams.get("search") || "";
+  const [search, setSearch] = useState(urlSearch);
+  useEffect(() => {
+    setSearch(urlSearch);
+  }, [urlSearch]);
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     setSearch(event.target.value);
+
+    if (event.type === "click") {
+      updateURL(event.target.value);
+    }
   };
 
   const onSearch = () => {
-    if (is.empty(search)) {
-      push("/catalog");
+    updateURL(search);
+  };
+
+  const updateURL = (serachValue: string) => {
+    const newSearchParams = new URLSearchParams(searchParams);
+
+    if (is.empty(serachValue)) {
+      newSearchParams.delete("search");
     } else {
-      push("/catalog?search=" + search);
+      newSearchParams.set("search", serachValue);
     }
+
+    const newSearchParamsStr = newSearchParams.toString();
+    let newUrl = "/catalog";
+    if (!is.empty(newSearchParamsStr)) {
+      newUrl += "?" + newSearchParamsStr;
+    }
+
+    window.location.href = newUrl;
   };
 
   return (

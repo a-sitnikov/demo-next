@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import FormItem from "antd/es/form/FormItem";
-import { IFilter } from "@/app/api/catalog/route";
+import { IFilter } from "@/api/catalog";
 import { useTranslation } from "@/i18n/client";
 import { BoolFilter } from "@/ui/filters/bool-filter";
 

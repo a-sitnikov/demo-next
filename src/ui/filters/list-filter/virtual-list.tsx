@@ -1,14 +1,14 @@
 import { AutoSizer, CellMeasurer, CellMeasurerCache, List, ListProps } from "react-virtualized";
-import { TDefaultListOption } from ".";
+import { IFilterOption } from "@/api/catalog";
 import { ListRow } from "./list-row";
 
-interface IProps<TOption extends TDefaultListOption> {
+interface IProps<TOption extends IFilterOption> {
   options: TOption[];
   onChange: (id: TOption["id"], checked: boolean) => void;
   isChecked: (itemID: TOption["id"]) => boolean;
 }
 
-export const VirtualList = <TOption extends TDefaultListOption>({
+export const VirtualList = <TOption extends IFilterOption>({
   options,
   onChange,
   isChecked,

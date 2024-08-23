@@ -1,13 +1,13 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { createContext, useContext, useEffect, useMemo, useRef, useState } from "react";
+import { createContext, useContext, useMemo, useRef, useState } from "react";
 import { useDebounceCallback, useEventCallback } from "usehooks-ts";
 import { Form, FormInstance } from "antd";
+import { IAPICatalogData, ICategory, IFilter, IItem } from "@/api/catalog";
 import { upadetSearchParamsFromFiltersValues } from "@/utils/filters";
 import { useLoading, useYandexMetrika } from "@/utils/hooks";
 import { is } from "@/utils/type-guards";
-import { IAPICatalogData, ICategory, IFilter, IItem } from "../api/catalog/route";
 
 export interface ICatalogContext {
   filters: IFilter[];
@@ -44,13 +44,6 @@ export const CatalogContextProvider: React.FC<IProps> = ({ initialData, children
   );
 
   const [filtersForm] = Form.useForm();
-
-  useEffect(() => {
-    Object.keys(filtersForm.getFieldsValue(true)).forEach((id) => {
-      const value = filtersValues[id];
-      filtersForm.setFieldValue(id, value);
-    });
-  }, [filtersValues, filtersForm]);
 
   const abortControllerRef = useRef(new AbortController());
 

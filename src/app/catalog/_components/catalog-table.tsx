@@ -2,11 +2,11 @@
 
 import Link from "next/link";
 import { useMemo } from "react";
-import { IItem } from "@/app/api/catalog/route";
 import { useTranslation } from "@/i18n/client";
 import { QtyInput } from "@/shared/qty-input";
 import { IColumn, Table, TableBody, TableCell, TableHead, TableRow } from "@/ui/table";
 import { useCatalogContext } from "../context";
+import { IItem } from "@/api/catalog";
 
 interface IProps {
   items: IItem[];

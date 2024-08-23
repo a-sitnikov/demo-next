@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { Form } from "antd";
-import { FilterWithHeader } from "@/ui/filters/filter-with-header";
+import { BlockWithHeader } from "@/ui/block-with-header";
 import { useCatalogContext } from "../../context";
 import { FeaturedFilters, featuredFilters } from "./featured-filters";
 import { FilterComponent } from "./filter-component";
@@ -25,9 +25,9 @@ export const CatalogFilters = () => {
     >
       <FeaturedFilters />
       {filters.map((filter) => (
-        <FilterWithHeader key={filter.id} title={filter.name}>
+        <BlockWithHeader key={filter.id} title={filter.name}>
           <FilterComponent filter={filter} />
-        </FilterWithHeader>
+        </BlockWithHeader>
       ))}
     </Form>
   );

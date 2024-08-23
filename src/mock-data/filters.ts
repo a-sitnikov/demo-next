@@ -1,4 +1,4 @@
-import { IFilter } from "@/app/api/catalog/route";
+import { IFilter } from "@/api/catalog";
 import { mockProducers } from "./producers";
 
 export const mockFilters: IFilter[] = [

@@ -1,10 +1,10 @@
 "use client";
 
 import { useMemo } from "react";
-import { IFilter } from "@/app/api/catalog/route";
+import { IFilter } from "@/api/catalog";
 import { useTranslation } from "@/i18n/client";
+import { BlockWithHeader } from "@/ui/block-with-header";
 import { DropdownTag } from "@/ui/dropdown-tag";
-import { FilterWithHeader } from "@/ui/filters/filter-with-header";
 import { is } from "@/utils/type-guards";
 import { useCatalogContext } from "../../context";
 import { FilterComponent } from "../catalog-filters/filter-component";
@@ -55,7 +55,7 @@ export const FilterTag: React.FC<IProps> = ({ filter }) => {
       default:
         return null;
     }
-  }, [filter, value, t]);
+  }, [filter, value, t, t_cat]);
 
   const subtitle = useMemo(() => {
     if (is.undefined(value)) return null;
@@ -84,9 +84,9 @@ export const FilterTag: React.FC<IProps> = ({ filter }) => {
       onClose={handleClose}
       dropdown={
         filter.type === "Bool" ? undefined : (
-          <FilterWithHeader key={filter.id} title={filter.name}>
+          <BlockWithHeader key={filter.id} title={filter.name}>
             <FilterComponent filter={filter} />
-          </FilterWithHeader>
+          </BlockWithHeader>
         )
       }
     />

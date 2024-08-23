@@ -1,4 +1,4 @@
-import { IItem } from "../api/types";
+import { IItem } from "@/api/catalog";
 
 export const mockItems: IItem[] = [
   {

@@ -1,7 +1,7 @@
 import { Metadata } from "next";
+import { fetchCatalog } from "@/api/catalog";
 import { useServerTranslation } from "@/i18n";
 import { objectToSearchParams } from "@/utils/filters";
-import { fetchCatalog } from "../api/catalog/route";
 import { Banner } from "./_components/banner";
 import { CatalogFilters } from "./_components/catalog-filters";
 import { CatalogTable } from "./_components/catalog-table";
