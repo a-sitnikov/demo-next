@@ -2,6 +2,7 @@
 
 import { Key, ReactNode } from "react";
 import { Checkbox } from "antd";
+import { toArray } from "@/utils/array";
 import { is } from "@/utils/type-guards";
 
 export interface TDefaultSmallListOption {
@@ -12,26 +13,26 @@ export interface TDefaultSmallListOption {
 
 interface IProps<TOption extends TDefaultSmallListOption> {
   options: TOption[];
-  value?: TOption["id"][];
+  value?: TOption["id"] | TOption["id"][];
   onChange?: (id: TOption["id"][]) => void;
 }
 
 export const SmallListFilter = <TOption extends TDefaultSmallListOption>({
   options,
-  value,
+  value = [],
   onChange,
 }: IProps<TOption>) => {
   const isChecked = (itemID: TOption["id"]) => {
-    return value?.some((id) => id === itemID);
+    return toArray(value).some((id) => id === itemID);
   };
 
   const handleCheckChange = (itemID: TOption["id"], checked: boolean) => {
     if (is.empty(onChange)) return;
 
     if (checked) {
-      onChange([...(value || []), itemID]);
+      onChange([...toArray(value), itemID]);
     } else {
-      onChange((value || []).filter((id) => id !== itemID));
+      onChange(toArray(value).filter((id) => id !== itemID));
     }
   };
 
