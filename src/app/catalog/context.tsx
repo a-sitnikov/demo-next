@@ -5,7 +5,7 @@ import { createContext, useContext, useMemo, useRef, useState } from "react";
 import { useDebounceCallback, useEventCallback } from "usehooks-ts";
 import { Form, FormInstance } from "antd";
 import { IAPICatalogData, ICategory, IFilter, IItem } from "@/api/catalog";
-import { upadetSearchParamsFromFiltersValues } from "@/utils/filters";
+import { upadetSearchParams } from "@/utils/filters";
 import { useLoading, useYandexMetrika } from "@/utils/hooks";
 import { is } from "@/utils/type-guards";
 
@@ -61,7 +61,7 @@ export const CatalogContextProvider: React.FC<IProps> = ({
       params.set("search", search);
     }
 
-    upadetSearchParamsFromFiltersValues(params, filtersValues, filters);
+    upadetSearchParams(params, filtersValues);
 
     router.push(`/catalog/?${params.toString()}`, { scroll: false });
 

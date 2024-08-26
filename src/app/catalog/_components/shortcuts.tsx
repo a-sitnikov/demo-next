@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import { SettingOutlined } from "@ant-design/icons";
+import { useTranslation } from "@/i18n/client";
 import { mockCategories } from "@/mock-data/categories";
 import { IWithTranslate } from "@/utils/types";
 
@@ -19,7 +22,8 @@ const items = [
   },
 ];
 
-export const Shortcuts: React.FC<IWithTranslate> = ({ t }) => {
+export const Shortcuts: React.FC = () => {
+  const { t } = useTranslation("catalog");
   const featuredCategories = [mockCategories[0], mockCategories[1]];
 
   return (

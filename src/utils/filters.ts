@@ -1,4 +1,3 @@
-import { IFilter } from "@/api/catalog";
 import { is } from "./type-guards";
 
 export const isFilter = (param: string) => {
@@ -17,14 +16,7 @@ export const searchParamsToObject = (searchParams: URLSearchParams) => {
     if (is.empty(value)) return;
 
     if (value.length === 1) {
-      const val0 = value[0];
-      const match = val0.match(/r\[(.*)\]/);
-      if (is.empty(match)) {
-        result[id] = val0;
-      } else {
-        const range = match[1].split(",");
-        result[id] = range;
-      }
+      result[id] = value[0];
     } else {
       result[id] = value;
     }
@@ -47,22 +39,32 @@ export const objectToSearchParams = (obj: {} = {}) => {
   return searchParams;
 };
 
-export const upadetSearchParamsFromFiltersValues = (
+export const upadetSearchParams = (
   searchParams: URLSearchParams,
   filtersValues: Record<string, string | string[]>,
-  filters: IFilter[],
 ) => {
   Object.entries(filtersValues).forEach(([id, value]) => {
     if (is.empty(value)) return;
 
-    const filter = filters.find((item) => item.id === id);
-
-    if (filter?.type === "Range") {
-      searchParams.set(id, `r[${value}]`);
-    } else if (is.array(value)) {
+    if (is.array(value)) {
       value.forEach((item) => searchParams.append(id, item));
     } else {
       searchParams.set(id, value);
     }
   });
+};
+
+export const rangeToString = ([min, max]: [string | undefined, string | undefined]) => {
+  return `r[${min},${max}]`;
+};
+
+export const stringToRange = (value?: string) => {
+  if (is.undefined(value)) return ["", ""];
+
+  const match = value.match(/r\[(.*)\]/);
+  if (is.empty(match)) {
+    return ["", ""];
+  } else {
+    return match[1].split(",");
+  }
 };

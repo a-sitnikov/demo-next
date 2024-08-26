@@ -1,24 +1,28 @@
 "use client";
 
+import { useMemo } from "react";
 import { useTranslation } from "@/i18n/client";
+import { rangeToString, stringToRange } from "@/utils/filters";
 import { is } from "@/utils/type-guards";
 import { InputNumber } from "../input-number";
 
 interface IProps {
-  value?: [string | undefined, string | undefined];
-  onChange?: (value?: [string | undefined, string | undefined]) => void;
+  value?: string;
+  onChange?: (value?: string) => void;
   min?: number;
   max?: number;
 }
 
 export const RangeFilter: React.FC<IProps> = ({
-  value = [undefined, undefined],
+  value,
   onChange,
   min: rangeMin,
   max: rangeMax,
 }) => {
   const { t } = useTranslation("common");
-  const [min, max] = value;
+  const [min, max] = useMemo(() => {
+    return stringToRange(value);
+  }, [value]);
 
   const handleChangeMin = (newMin: string | undefined) => {
     if (is.empty(onChange)) return;
@@ -26,7 +30,7 @@ export const RangeFilter: React.FC<IProps> = ({
     if (is.empty(newMin) && is.empty(max)) {
       onChange(undefined);
     } else {
-      onChange([newMin, max]);
+      onChange(rangeToString([newMin, max]));
     }
   };
 
@@ -36,7 +40,7 @@ export const RangeFilter: React.FC<IProps> = ({
     if (is.empty(min) && is.empty(newMax)) {
       onChange(undefined);
     } else {
-      onChange([min, newMax]);
+      onChange(rangeToString([min, newMax]));
     }
   };
 

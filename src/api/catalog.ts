@@ -59,9 +59,13 @@ export interface IAPICatalogData {
   categories: ICategory[];
 }
 
-export const fetchCatalog = async (searchParams: URLSearchParams): Promise<IAPICatalogData> => {
-  const search = searchParams.get("search");
-  const filtersValues = searchParamsToObject(searchParams);
+interface ISearchParams {
+  search?: string;
+}
+
+export const fetchCatalog = async (searchParams?: ISearchParams): Promise<IAPICatalogData> => {
+  const search = searchParams?.search;
+  const filtersValues = (searchParams || {}) as Record<string, string | string[]>;
 
   if (is.empty(search)) {
     return resolveWithDelay(

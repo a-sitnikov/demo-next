@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   title: "Каталог",
 };
 
-async function getData(searchParams: URLSearchParams) {
+async function getData(searchParams?: {}) {
   return fetchCatalog(searchParams);
 }
 
@@ -26,13 +26,12 @@ interface IProps {
 }
 
 export default async function Catalog({ searchParams }: IProps) {
-  const { t } = await useServerTranslation("catalog");
-  const data = await getData(objectToSearchParams(searchParams));
+  const data = await getData(searchParams);
 
   return (
     <CatalogContextProvider initialData={data} searchParams={searchParams}>
       <div className="flex flex-col gap-4 px-2">
-        <Shortcuts t={t} />
+        <Shortcuts />
         <div className="flex gap-6">
           <div className="flex flex-col gap-4 shrink-0 grow-0 w-60">
             <CategoryTree />
